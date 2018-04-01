@@ -3,6 +3,29 @@ from cplex.exceptions import CplexError
 import sys
 import numpy
 
+
+def getdates(prob):
+  L = [100, 60]
+  l = [50, 40, 30, 15]
+  D = [50, 50, 100, 100]
+  m_obj = [1, 1]
+  m_ub = [cplex.infinity, cplex.infinity]
+  m_lb = [0, 0]
+  m_colnames = ["x1", "x2"]
+  m_rhs = D
+  m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
+
+def method(prob):
+  for i in range(len(L)): 
+    N = 0
+    for j in range(len(l)):
+      if i != j:
+        A[i, j, N] = 0
+      else: 
+        A[i, j, N] = numpy.floor(L[i]/l[m])
+  N += 1
+
+
 print('testing')
 
 m_obj = [-2.0, -1.0]
@@ -28,4 +51,12 @@ print(prob.objective.get_sense())
 print(prob.variables.get_names())
 print(prob.solve())
 print(prob.solution.get_reduced_costs())
+#for x in m_rhs:
+ # print("teste")
+
+#for i in range(len(m_colnames)):
+#  m_rownames += "Demanda" + str(i)
+
+#print(m_rownames)  
+
 
