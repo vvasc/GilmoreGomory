@@ -30,8 +30,8 @@ class GilmoreGomory:
     m_rhs = D
     m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
 
-    prob.objective.set_sense(prob.objective.sense.minimize)
-    prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
+    #prob.objective.set_sense(prob.objective.sense.minimize)
+    #prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
     for i in range(len(D)):
       #constraints.append(["x1", "x2"], [])
       print("teste")
@@ -56,7 +56,7 @@ class GilmoreGomory:
       m_colnames[j] = ("x" + str(j))
       m_obj[j] = 1
       
-    print(m_colnames)
+    print(A)
     
    # prob.linear_constraints.add()
 
