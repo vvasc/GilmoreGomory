@@ -3,38 +3,42 @@ from cplex.exceptions import CplexError
 import sys
 import numpy
 
+class GilmoreGomory:
+  def getdados(prob):
+    L = [100]
+    l = [50, 40, 30, 15]
+    D = [50, 50, 100, 100]
+    m_ub = [cplex.infinity, cplex.infinity]
+    m_lb = [0, 0]
+    m_obj = [1]
+    m_colnames = ["x1"]
+    m_rhs = D
+    m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
 
-def getdates(prob):
-  L = [100]
-  l = [50, 40, 30, 15]
-  D = [50, 50, 100, 100]
-  m_ub = [cplex.infinity, cplex.infinity]
-  m_lb = [0, 0]
-  m_obj = [1]
-  m_colnames = ["x1"]
-  m_rhs = D
-  m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
-
-  prob.objective.set_sense(prob.objective.sense.minimize)
-  prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
-  for i in range(len(D)):
-    constraints.append(["x1", "x2"], [])
+    prob.objective.set_sense(prob.objective.sense.minimize)
+    prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
+    for i in range(len(D)):
+      constraints.append(["x1", "x2"], [])
 
 
-def method(prob):
-  N = 0
-  for i in range(len(L)): 
-    for j in range(len(l)):
-      if i != j:
-        A[i, j, N] = 0
-      else: 
-        A[i, j, N] = numpy.floor(L[i]/l[m])
-  N += 1
-  
-  prob.linear_constraints.add()
+  def method(prob):
+    N = 0
+    constraints = []
+    for i in range(len(L)): 
+    #aux = ""
+      for j in range(len(l)):
+        if i != j:
+          A[i, j, N] = 0
+        else: 
+          A[i, j, N] = numpy.floor(L[i]/l[m])
+      #aux +=
+      #constraints.append([""])  
+      N += 1
+    
+    prob.linear_constraints.add()
 
-def init(prob):
-  getdates(prob)
+  def init(prob):
+    getdates(prob)
 
 print('testing')
 
