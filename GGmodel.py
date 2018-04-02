@@ -1,15 +1,30 @@
 import cplex
 from cplex.exceptions import CplexError
 import sys
-import numpy
+import numpy as np
 
 class GilmoreGomory:
-  def getdados(prob):
-    L = [100]
-    l = [50, 40, 30, 15]
-    D = [50, 50, 100, 100]
-    m_ub = [cplex.infinity, cplex.infinity]
-    m_lb = [0, 0]
+
+  
+  # para variaveis: 
+    #obj, lb, ub, names
+  #para linear_constrainsts
+    #lin_expr, senses, rhs, names
+#        >>> import cplex
+#        >>> c = cplex.Cplex()
+ #       >>> indices = c.linear_constraints.add(names = ["c0", "c1", "c2", "c3"])
+  #      >>> c.linear_constraints.get_rhs()
+   #     [0.0, 0.0, 0.0, 0.0]
+    #    >>> c.linear_constraints.set_rhs("c1", 1.0)
+     #   >>> c.linear_constraints.get_rhs()
+      #  [0.0, 1.0, 0.0, 0.0]
+      #  >>> c.linear_constraints.set_rhs([("c3", 2.0), (2, -1.0)])
+       # >>> c.linear_constraints.get_rhs()
+       # [0.0, 1.0, -1.0, 2.0]
+       # """
+
+
+  def getdados(self, prob):
     m_obj = [1]
     m_colnames = ["x1"]
     m_rhs = D
@@ -18,32 +33,45 @@ class GilmoreGomory:
     prob.objective.set_sense(prob.objective.sense.minimize)
     prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
     for i in range(len(D)):
-      constraints.append(["x1", "x2"], [])
+      #constraints.append(["x1", "x2"], [])
+      print("teste")
 
 
-  def method(prob):
+  def padroesiniciais(self, m_colnames, m_obj):
     N = 0
+    L = 100
+    l = [50, 40, 30, 15]
+    D = [50, 50, 100, 100]
+    A = {}
     constraints = []
-    for i in range(len(L)): 
     #aux = ""
-      for j in range(len(l)):
-        if i != j:
-          A[i, j, N] = 0
-        else: 
-          A[i, j, N] = numpy.floor(L[i]/l[m])
+    for j in range(len(l)):
+      if j != N:
+        A[j, N] = 0
+      else: 
+        A[j, N] = np.floor(L/l[j])
       #aux +=
       #constraints.append([""])  
       N += 1
+      m_colnames[j] = ("x" + str(j))
+      m_obj[j] = 1
+      
+    print(m_colnames)
     
-    prob.linear_constraints.add()
+   # prob.linear_constraints.add()
 
-  def init(prob):
-    getdates(prob)
+  def __init__(self, prob):
+    print("inicio")
 
 print('testing')
-
+m_colnames = ["0", "0", "0", "0"]
+m_obj = [0, 0, 0, 0]
+m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
+m_lb = [0, 0, 0, 0]
 corte = cplex.Cplex()
 mochila = cplex.Cplex()
+gg = GilmoreGomory(corte)
+gg.padroesiniciais(m_colnames, m_obj)
 
 
 #m_obj = [-2.0, -1.0]
