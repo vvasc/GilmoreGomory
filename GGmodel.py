@@ -24,10 +24,13 @@ class GilmoreGomory:
        # """
 
 
-  def restricoes(self, prob, m_colnames, rhs):
+  def restricoes(self, prob, m_colnames, rhs, A):
     m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
-
-
+    print(m_colnames)
+    print(A[0]) 
+    for i in range(len(rhs)):
+      constraints[i] = m_colnames + A[i]
+    print(constraints)
     #prob.objective.set_sense(prob.objective.sense.minimize)
     #prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
     #for i in range(len(D)):
@@ -35,23 +38,22 @@ class GilmoreGomory:
       #print("teste")
 
 
-  def padroesiniciais(self, m_colnames, m_obj, L, l):
+  def padroesiniciais(self, m_colnames, m_obj, L, l, A):
     N = 0
-    A = {}
     constraints = []
     #aux = ""
     for j in range(len(l)):
       if j != N:
-        A[j, N] = 0
+        A[j][N] = 0
       else: 
-        A[j, N] = np.floor(L/l[j])
+        A[j][N] = np.floor(L/l[j])
       #aux +=
       #constraints.append([""])  
       N += 1
       m_colnames[j] = ("x" + str(j))
       m_obj[j] = 1
       
-    print(A)
+    #print(A)
     
    # prob.linear_constraints.add()
 
@@ -64,6 +66,7 @@ class GilmoreGomory:
   
 
 print('testing')
+A = [[0 for x in range(4)] for y in range(4)]
 m_colnames = ["0", "0", "0", "0"]
 m_obj = [0, 0, 0, 0]
 m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
@@ -74,7 +77,8 @@ D = [50, 50, 100, 100]
 corte = cplex.Cplex()
 mochila = cplex.Cplex()
 gg = GilmoreGomory(corte)
-gg.padroesiniciais(m_colnames, m_obj, L, l)
+gg.padroesiniciais(m_colnames, m_obj, L, l, A)
+#gg.restricoes(corte, m_colnames, D, A)
 
 
 
