@@ -24,24 +24,19 @@ class GilmoreGomory:
        # """
 
 
-  def getdados(self, prob):
-    m_obj = [1]
-    m_colnames = ["x1"]
-    m_rhs = D
+  def restricoes(self, prob, m_colnames, rhs):
     m_rownames = ["demanda1", "demanda2", "demanda3", "demanda4"]
+
 
     #prob.objective.set_sense(prob.objective.sense.minimize)
     #prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
-    for i in range(len(D)):
+    #for i in range(len(D)):
       #constraints.append(["x1", "x2"], [])
-      print("teste")
+      #print("teste")
 
 
-  def padroesiniciais(self, m_colnames, m_obj):
+  def padroesiniciais(self, m_colnames, m_obj, L, l):
     N = 0
-    L = 100
-    l = [50, 40, 30, 15]
-    D = [50, 50, 100, 100]
     A = {}
     constraints = []
     #aux = ""
@@ -63,15 +58,25 @@ class GilmoreGomory:
   def __init__(self, prob):
     print("inicio")
 
+  def addvariables(self, prob):
+    prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
+
+  
+
 print('testing')
 m_colnames = ["0", "0", "0", "0"]
 m_obj = [0, 0, 0, 0]
 m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
 m_lb = [0, 0, 0, 0]
+L = 100
+l = [50, 40, 30, 15]
+D = [50, 50, 100, 100]
 corte = cplex.Cplex()
 mochila = cplex.Cplex()
 gg = GilmoreGomory(corte)
-gg.padroesiniciais(m_colnames, m_obj)
+gg.padroesiniciais(m_colnames, m_obj, L, l)
+
+
 
 
 #m_obj = [-2.0, -1.0]
