@@ -61,58 +61,64 @@ from Dual import DualGG
 
 
 
-class GGmodel:
+a =[0]
+N = [0] 
+m_colnames = ["0", "0", "0", "0"]
+m_obj = [0, 0, 0, 0] 
+m_rhs = [0, 0, 0, 0]
+m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
+m_lb = [0, 0, 0, 0]
+L = 100
+l = [50, 40, 30, 15]
+D = [50, 50, 100, 100]
+A = [[0 for x in range(len(l))] for y in range(len(l))] 
+constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
+m_rownames = ["" for x in range(len(m_rhs))]
+m_senses = ["" for x in range(len(m_rhs))]
 
-  def __init__(self):
-    print("inicio")
+
+
+corte = cplex.Cplex()
+mochila = cplex.Cplex()
+
+
+gg = PrimalGG()
+mo = DualGG()
+
+
+gg.padroesiniciais(m_colnames, L, l, A, N)
+
+
+gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj)
+gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
+gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
+corte.objective.set_sense(corte.objective.sense.minimize)
 
   
-  A = [[0 for x in range(4)] for y in range(4)]
-  constraints = [[[0 for x in range(4)] for y in range(2)] for w in range(4)]
-  m_colnames = ["0", "0", "0", "0"]
-  m_obj = [0, 0, 0, 0]
-  m_rhs = [0, 0, 0, 0]
-  m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
-  m_lb = [0, 0, 0, 0]
-  L = 100
-  l = [50, 40, 30, 15]
-  D = [50, 50, 100, 100]
-
-
-
-  corte = cplex.Cplex()
-  mochila = cplex.Cplex()
-
-
-  gg = PrimalGG(corte)
-  mo = DualGG(mochila)
-
-
-  gg.padroesiniciais(m_colnames, m_obj, L, l, A)
-  gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
-  gg.restricoes(corte, m_colnames, D, A, constraints)
-  corte.objective.set_sense(corte.objective.sense.minimize)
-
   
-  
-  print(corte.solve())
-  print(corte.solution.get_values())
+print(corte.solve())
+print(corte.solution.get_values())
 
 
-  M = corte.solution.get_dual_values()
-  constraints = [[[0 for x in range(4)] for y in range(2)] for w in range(4)]
+M = corte.solution.get_dual_values()
+constraints = [[[0 for x in range(4)] for y in range(2)] for w in range(4)]
 
 
-  mo.mochilainicio(m_colnames, l)
-  for i in range(len(M)):
-    m_rhs[i] = L
+mo.mochilainicio(m_colnames, l)
+for i in range(len(M)):
+  m_rhs[i] = L
 
-  mo.addvariables(mochila, M, m_lb, D, m_colnames)
-  mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
-  mochila.objective.set_sense(mochila.objective.sense.maximize)
-  mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
-  print(mochila.solve())
-  print(mochila.solution.get_values())
+mo.addvariables(mochila, M, m_lb, D, m_colnames)
+mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
+mochila.objective.set_sense(mochila.objective.sense.maximize)
+mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
+print(mochila.solve())
+a = mochila.solution.get_values()
+N[0] += 1
+A.append(a)
+print(N)
+#print(corte.solution.get_reduced_costs())
+#print(A)
   
 
 

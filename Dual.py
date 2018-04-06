@@ -9,7 +9,7 @@ class DualGG:
   def addvariables(self, prob, m_obj, m_lb, D, m_colnames):
     prob.variables.add(obj = m_obj, lb = m_lb, ub = D, names = m_colnames)
 
-  def __init__(self, prob):
+  def __init__(self):
     print("iniciodual")
 
   def mochilainicio(self, m_colnames, l):
