@@ -150,6 +150,8 @@ for i in range(len(M)):
 mo.addvariables(mochila, M, m_lb, D, m_colnames)
 mo.restricoes(mochila, m_colnames, m_rhs, l, constraints)
 mochila.objective.set_sense(mochila.objective.sense.maximize)
+mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
+print(mochila.variables.get_types())
 print(mochila.solve())
 print(mochila.solution.get_values())
 
