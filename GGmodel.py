@@ -68,6 +68,9 @@ class PrimalGilmoreGomory:
     for i in range(len(m_rhs)):
       constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
       constraints[i][1] = A[i]
+    #print(m_rhs)
+    #print(m_colnames)
+    #print(constraints)
     prob.linear_constraints.add(lin_expr = constraints, senses = m_senses, rhs = m_rhs, names = m_rownames)
 
 
@@ -98,7 +101,7 @@ class PrimalGilmoreGomory:
 
 class DualGilmoreGomory:
   
-  def addvariables(self, prob):
+  def addvariables(self, prob, m_obj, m_lb, ub, names):
     prob.variables.add(obj = m_obj, lb = m_lb, ub = D, names = m_colnames)
 
   def __init__(self, prob):
@@ -112,13 +115,9 @@ class DualGilmoreGomory:
   def restricoes(self, prob, m_colnames, m_rhs, l, constraints):
     m_rownames = ["existencia1", "existencia2", "existencia3", "existencia4"]
     m_senses = ["L", "L", "L", "L"]
-    print(m_rhs)
-    print(m_colnames)
-    print(M)
     for i in range(len(M)):
       constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
       constraints[i][1] = l
-    print(constraints)
     prob.linear_constraints.add(lin_expr = constraints, senses = m_senses, rhs = m_rhs, names = m_rownames)
   
 
@@ -148,7 +147,11 @@ constraints = [[[0 for x in range(4)] for y in range(2)] for w in range(4)]
 mo.mochilainicio(m_colnames, l)
 for i in range(len(M)):
   m_rhs[i] = L
+mo.addvariables(mochila, M, m_lb, D, m_colnames)
 mo.restricoes(mochila, m_colnames, m_rhs, l, constraints)
+mochila.objective.set_sense(mochila.objective.sense.maximize)
+print(mochila.solve())
+print(mochila.solution.get_values())
 
 
 
