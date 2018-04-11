@@ -16,7 +16,7 @@ class DualGG:
     for j in range(len(l)):
       m_colnames.append(str("a"+ str(j)))
       m_obj.append(1)
-    print(m_colnames)
+    #print(m_colnames)
 
 
   def restricoes(self, prob, m_colnames, m_rhs, l, constraints, M):

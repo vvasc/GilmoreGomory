@@ -81,6 +81,7 @@ l = [50, 40, 30, 15]
 D = [50, 50, 100, 100]
 A = [[0 for x in range(len(l))] for y in range(len(l))] 
 constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
+#constraints = [[[],[]],[[],[]]]
 m_rownames = ["" for x in range(len(m_rhs))]
 m_senses = ["" for x in range(len(m_rhs))]
 custred = [0, 0, 0, 0]
@@ -106,12 +107,12 @@ while(checacustosrelativos(custred) | inicio):
 
     
     
-  print(corte.solve())
+  corte.solve()
   print(corte.solution.get_values())
 
 
   M = corte.solution.get_dual_values()
-  constraints = [[],[]]
+  #print(M)
 
   m_colnames = []
   m_obj = []
@@ -132,6 +133,7 @@ while(checacustosrelativos(custred) | inicio):
   custred = corte.solution.get_reduced_costs()
   print(A)
   m_colnames = []
+  constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(N[0])]
   
 
 
