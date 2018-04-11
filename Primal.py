@@ -12,12 +12,12 @@ class PrimalGG:
       m_rownames[i] = str("demanda" + str(i+1))
       m_senses[i] = "G"
     for i in range(N[0]):
-      m_colnames[i] = str("x" + str(i))
-      m_obj[i] = 1
+      m_colnames.append(str("x" + str(i))) 
+      m_obj.append(1)
     for i in range(N[0]):
       constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
       constraints[i][1] = A[i]
-
+    print(constraints)
 
   def padroesiniciais(self, m_colnames, L, l, A, N):
     for j in range(len(l)):

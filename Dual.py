@@ -12,9 +12,11 @@ class DualGG:
   def __init__(self):
     print("iniciodual")
 
-  def mochilainicio(self, m_colnames, l):
+  def mochilainicio(self, m_colnames, l, m_obj):
     for j in range(len(l)):
-      m_colnames[j] = str("a"+ str(j))
+      m_colnames.append(str("a"+ str(j)))
+      m_obj.append(1)
+    print(m_colnames)
 
 
   def restricoes(self, prob, m_colnames, m_rhs, l, constraints, M):

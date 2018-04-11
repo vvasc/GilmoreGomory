@@ -61,10 +61,18 @@ from Dual import DualGG
 
 
 
+
+def checacustosrelativos(custred):
+  for i in range(len(custred)):
+    if (custred[i]<=0):
+      return True
+    return False
+
+
 a =[0]
 N = [0] 
-m_colnames = ["0", "0", "0", "0"]
-m_obj = [0, 0, 0, 0] 
+m_colnames = []
+m_obj = [] 
 m_rhs = [0, 0, 0, 0]
 m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
 m_lb = [0, 0, 0, 0]
@@ -75,7 +83,8 @@ A = [[0 for x in range(len(l))] for y in range(len(l))]
 constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
 m_rownames = ["" for x in range(len(m_rhs))]
 m_senses = ["" for x in range(len(m_rhs))]
-
+custred = [0, 0, 0, 0]
+inicio = True
 
 
 corte = cplex.Cplex()
@@ -88,37 +97,41 @@ mo = DualGG()
 
 gg.padroesiniciais(m_colnames, L, l, A, N)
 
+while(checacustosrelativos(custred) | inicio):
+  inicio = False
+  gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj)
+  gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
+  gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
+  corte.objective.set_sense(corte.objective.sense.minimize)
 
-gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj)
-gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
-gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
-corte.objective.set_sense(corte.objective.sense.minimize)
-
-  
-  
-print(corte.solve())
-print(corte.solution.get_values())
-
-
-M = corte.solution.get_dual_values()
-constraints = [[[0 for x in range(4)] for y in range(2)] for w in range(4)]
+    
+    
+  print(corte.solve())
+  print(corte.solution.get_values())
 
 
-mo.mochilainicio(m_colnames, l)
-for i in range(len(M)):
-  m_rhs[i] = L
+  M = corte.solution.get_dual_values()
+  constraints = [[],[]]
 
-mo.addvariables(mochila, M, m_lb, D, m_colnames)
-mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
-mochila.objective.set_sense(mochila.objective.sense.maximize)
-mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
-print(mochila.solve())
-a = mochila.solution.get_values()
-N[0] += 1
-A.append(a)
-print(N)
-#print(corte.solution.get_reduced_costs())
-#print(A)
+  m_colnames = []
+  m_obj = []
+
+  mo.mochilainicio(m_colnames, l, m_obj)
+  for i in range(len(M)):
+    m_rhs[i] = L
+
+  mo.addvariables(mochila, M, m_lb, D, m_colnames)
+  mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
+  mochila.objective.set_sense(mochila.objective.sense.maximize)
+  mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
+  print(mochila.solve())
+  a = mochila.solution.get_values()
+  N[0] += 1
+  A.append(a)
+  print(N)
+  custred = corte.solution.get_reduced_costs()
+  print(A)
+  m_colnames = []
   
 
 
