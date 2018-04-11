@@ -112,7 +112,7 @@ while(checacustosrelativos(custred) | inicio):
 
 
   M = corte.solution.get_dual_values()
-  #print(M)
+  print(M)
 
   m_colnames = []
   m_obj = []
