@@ -1,3 +1,4 @@
+# coding=utf-8
 import cplex
 from cplex.exceptions import CplexError
 import sys
@@ -68,22 +69,22 @@ def checacustosrelativos(custred):
       return True
     return False
 
-
+IT = 0
 a =[0]
 N = [0] 
 m_colnames = []
 m_obj = [] 
-m_rhs = [0, 0, 0, 0]
-m_ub = [cplex.infinity, cplex.infinity, cplex.infinity, cplex.infinity]
-m_lb = [0, 0, 0, 0]
+m_rhs = []
+m_ub = []
+m_lb = []
 L = 100
 l = [50, 40, 30, 15]
 D = [50, 50, 100, 100]
 A = [[0 for x in range(len(l))] for y in range(len(l))] 
 constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
 #constraints = [[[],[]],[[],[]]]
-m_rownames = ["" for x in range(len(m_rhs))]
-m_senses = ["" for x in range(len(m_rhs))]
+m_rownames = ["" for x in range(len(D))]
+m_senses = ["" for x in range(len(D))]
 custred = [0, 0, 0, 0]
 inicio = True
 
@@ -99,8 +100,9 @@ mo = DualGG()
 gg.padroesiniciais(m_colnames, L, l, A, N)
 
 while(checacustosrelativos(custred) | inicio):
+  IT+=1
   inicio = False
-  gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj)
+  gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb)
   gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
   gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
   corte.objective.set_sense(corte.objective.sense.minimize)
@@ -112,28 +114,38 @@ while(checacustosrelativos(custred) | inicio):
 
 
   M = corte.solution.get_dual_values()
-  print(M)
+  #print(M)
 
   m_colnames = []
   m_obj = []
+  m_ub = []
+  m_lb = []
 
-  mo.mochilainicio(m_colnames, l, m_obj)
+
+  mo.mochilainicio(m_colnames, l, m_obj, m_lb)
   for i in range(len(M)):
-    m_rhs[i] = L
+    m_rhs.append(L)
 
   mo.addvariables(mochila, M, m_lb, D, m_colnames)
   mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
   mochila.objective.set_sense(mochila.objective.sense.maximize)
   mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
-  print(mochila.solve())
+  mochila.solve()
   a = mochila.solution.get_values()
+  print(a)
   N[0] += 1
   A.append(a)
-  print(N)
+  A = np.transpose(A)
+  #print(N)
   custred = corte.solution.get_reduced_costs()
-  print(A)
+  #print(A)
   m_colnames = []
-  constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(N[0])]
+  m_obj = []
+  m_ub = []
+  m_lb = []
+  constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(len(l))]
+  #print(constraints)
+  print(IT)
   
 
 
