@@ -31,10 +31,12 @@ class DualGG:
       m_rownames[i] = str("existencia" + str(i+1))
       constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
       constraints[i][1] = l
+      prob.variables.set_types([(i, prob.variables.type.integer)])
     #print(m_colnames)
     #print(m_rhs)
     #print(l)
     #print(constraints)
     #print(M)
     prob.linear_constraints.add(lin_expr = constraints, senses = m_senses, rhs = m_rhs, names = m_rownames)
+    
   

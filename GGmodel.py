@@ -5,7 +5,8 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Dual import DualGG
-
+import matplotlib.pyplot as plt
+import matplotlib as mpl
   
   # para variaveis: 
     #obj, lb, ub, names
@@ -101,7 +102,6 @@ gg.padroesiniciais(m_colnames, L, l, A, N)
 
 while(checacustosrelativos(custred) | inicio):
   IT+=1
-  inicio = False
   gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb)
   gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
   gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
@@ -111,9 +111,11 @@ while(checacustosrelativos(custred) | inicio):
     
   corte.solve()
   print(corte.solution.get_values())
-
+  print(corte.solution.get_dual_values())
 
   M = corte.solution.get_dual_values()
+
+
   #print(M)
 
   m_colnames = []
@@ -129,12 +131,12 @@ while(checacustosrelativos(custred) | inicio):
   mo.addvariables(mochila, M, m_lb, D, m_colnames)
   mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
   mochila.objective.set_sense(mochila.objective.sense.maximize)
-  mochila.variables.set_types([(0, mochila.variables.type.integer),(1, mochila.variables.type.integer), (2, mochila.variables.type.integer), (3, mochila.variables.type.integer)])
   mochila.solve()
   a = mochila.solution.get_values()
   print(a)
   N[0] += 1
-  A.append(a)
+  A = np.transpose(A)
+  A = np.vstack([A, a])
   A = np.transpose(A)
   #print(N)
   custred = corte.solution.get_reduced_costs()
@@ -143,9 +145,14 @@ while(checacustosrelativos(custred) | inicio):
   m_obj = []
   m_ub = []
   m_lb = []
+  m_rhs = []
+  a = []
+  corte = cplex.Cplex()
+  mochila = cplex.Cplex()
   constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(len(l))]
   #print(constraints)
   print(IT)
+  inicio = False
   
 
 
