@@ -66,7 +66,7 @@ import matplotlib as mpl
 
 def checacustosrelativos(custred):
   for i in range(len(custred)):
-    if (custred[i]<=0):
+    if (custred[i]<0):
       return True
     return False
 
