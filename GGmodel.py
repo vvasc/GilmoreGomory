@@ -61,100 +61,104 @@ import matplotlib as mpl
 
 #print(m_rownames)  
 
-
-
-
-def checacustosrelativos(custred):
-  for i in range(len(custred)):
-    if (custred[i]<0):
-      return True
-    return False
-
-IT = 0
-a = [0]
-N = [0] 
-m_colnames = []
-m_obj = [] 
-m_rhs = []
-m_ub = []
-m_lb = []
-L = 100
-l = [50, 40, 30, 15]
-D = [50, 50, 100, 100]
-A = [[0 for x in range(len(l))] for y in range(len(l))] 
-constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
-#constraints = [[[],[]],[[],[]]]
-m_rownames = ["" for x in range(len(D))]
-m_senses = ["" for x in range(len(D))]
-custred = [0, 0, 0, 0]
-inicio = True
-
-
-corte = cplex.Cplex()
-mochila = cplex.Cplex()
-
-
-gg = PrimalGG()
-mo = DualGG()
-
-
-gg.padroesiniciais(m_colnames, L, l, A, N)
-
-while(checacustosrelativos(custred) | inicio):
-  IT+=1
-  gg.restricoes(corte, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb)
-  gg.addvariables(corte, m_obj, m_lb, m_ub, m_colnames)
-  gg.addconstraints(corte, constraints, m_senses, D, m_rownames)
-  corte.objective.set_sense(corte.objective.sense.minimize)
-
-    
-    
-  corte.solve()
-  print(corte.solution.get_values())
-  print(corte.solution.get_dual_values())
-
-  M = corte.solution.get_dual_values()
-
-
-  #print(M)
-
+class GGmodel:
+  IT = 0
+  a = [0]
+  N = [0] 
   m_colnames = []
-  m_obj = []
-  m_ub = []
-  m_lb = []
-
-
-  mo.mochilainicio(m_colnames, l, m_obj, m_lb)
-  for i in range(len(M)):
-    m_rhs.append(L)
-
-  mo.addvariables(mochila, M, m_lb, D, m_colnames)
-  mo.restricoes(mochila, m_colnames, m_rhs, l, constraints, M)
-  mochila.objective.set_sense(mochila.objective.sense.maximize)
-  mochila.solve()
-  a = mochila.solution.get_values()
-  print(a)
-  N[0] += 1
-  A = np.transpose(A)
-  A = np.vstack([A, a])
-  A = np.transpose(A)
-  #print(N)
-  custred = corte.solution.get_reduced_costs()
-  #print(A)
-  m_colnames = []
-  m_obj = []
-  m_ub = []
-  m_lb = []
+  m_obj = [] 
   m_rhs = []
-  a = []
+  m_ub = []
+  m_lb = []
+  L = 100
+  l = [50, 40, 30, 15]
+  D = [50, 50, 100, 100]
+  A = [[0 for x in range(len(l))] for y in range(len(l))] 
+  constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
+  #constraints = [[[],[]],[[],[]]]
+  m_rownames = ["" for x in range(len(D))]
+  m_senses = ["" for x in range(len(D))]
+  custred = [0, 0, 0, 0]
+  inicio = True
+  
   corte = cplex.Cplex()
   mochila = cplex.Cplex()
-  constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(len(l))]
-  #print(constraints)
-  print(IT)
-  inicio = False
-  
 
+
+  gg = PrimalGG()
+  mo = DualGG()
+
+  def declarations(self):
+    
+
+  def checacustosrelativos(self, custred):
+    for i in range(len(custred)):
+      if (custred[i]<0):
+        return True
+      return False
+    
+  def method(self):
+    self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
+    while(self.checacustosrelativos(self.custred) | self.inicio):
+      self.IT+=1
+      self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
+      self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
+      self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.m_rownames)
+      self.corte.objective.set_sense(self.corte.objective.sense.minimize)
+
+        
+        
+      self.corte.solve()
+      print(self.corte.solution.get_values())
+      print(self.corte.solution.get_dual_values())
+
+      self.M = self.corte.solution.get_dual_values()
+
+
+      #print(M)
+
+      self.m_colnames = []
+      self.m_obj = []
+      self.m_ub = []
+      self.m_lb = []
+
+
+      self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
+      for i in range(len(self.M)):
+        self.m_rhs.append(self.L)
+
+      self.mo.addvariables(self.mochila, self.M, self.m_lb, self.D, self.m_colnames)
+      self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M)
+      self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
+      self.mochila.solve()
+      self.a = self.mochila.solution.get_values()
+      print(self.a)
+      self.N[0] += 1
+      self.A = np.transpose(self.A)
+      self.A = np.vstack([self.A, self.a])
+      self.A = np.transpose(self.A)
+      #print(N)
+      self.custred = self.corte.solution.get_reduced_costs()
+      #print(A)
+      self.m_colnames = []
+      self.m_obj = []
+      self.m_ub = []
+      self.m_lb = []
+      self.m_rhs = []
+      self.a = []
+      self.corte = cplex.Cplex()
+      self.mochila = cplex.Cplex()
+      self.constraints = [[[0 for x in range(self.N[0])] for y in range(2)] for w in range(len(self.l))]
+      #print(constraints)
+      print(self.IT)
+      self.inicio = False
+
+  def __init__(self):
+    self.method()
+    
+
+
+      
 
 
 
