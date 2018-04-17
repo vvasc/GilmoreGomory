@@ -71,7 +71,7 @@ def checacustosrelativos(custred):
     return False
 
 IT = 0
-a =[0]
+a = [0]
 N = [0] 
 m_colnames = []
 m_obj = [] 
