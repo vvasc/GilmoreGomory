@@ -88,8 +88,8 @@ class GGmodel:
   gg = PrimalGG()
   mo = DualGG()
 
-  def declarations(self):
-    
+  #def declarations(self):
+
 
   def checacustosrelativos(self, custred):
     for i in range(len(custred)):
