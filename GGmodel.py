@@ -73,8 +73,10 @@ class GGmodel:
   L = 100
   l = [50, 40, 30, 15]
   D = [50, 50, 100, 100]
+  ek = [300]
   A = [[0 for x in range(len(l))] for y in range(len(l))] 
   constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
+  estoque = [[[0 for x in range(len(l))] for y in range(2)]]
   #constraints = [[[],[]],[[],[]]]
   m_rownames = ["" for x in range(len(D))]
   m_senses = ["" for x in range(len(D))]
@@ -104,6 +106,10 @@ class GGmodel:
       self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.m_rownames)
+      self.m_rownames = []
+      self.m_senses = []
+      self.gg.restricaoestoque(self.m_rownames, self.m_senses, self.estoque, self.m_colnames, self.m_obj)
+      self.gg.addconstraints(self.corte, self.estoque, self.m_senses, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
 
         
@@ -149,6 +155,7 @@ class GGmodel:
       self.corte = cplex.Cplex()
       self.mochila = cplex.Cplex()
       self.constraints = [[[0 for x in range(self.N[0])] for y in range(2)] for w in range(len(self.l))]
+      self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       #print(constraints)
       print(self.IT)
       self.inicio = False

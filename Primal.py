@@ -22,6 +22,14 @@ class PrimalGG:
       constraints[i][1] = A[i]
     #print(m_colnames)
     #print(constraints)
+  
+  def restricaoestoque(self, m_rownames, m_senses, estoque, m_colnames, m_obj):
+    estoque[0] = m_colnames
+    estoque.append(m_obj)
+    m_senses.append("L")
+    m_rownames.append("Estoque")
+
+
 
   def padroesiniciais(self, m_colnames, L, l, A, N):
     for j in range(len(l)):
