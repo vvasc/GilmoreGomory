@@ -4,7 +4,7 @@ from cplex.exceptions import CplexError
 import sys
 import numpy as np
 from Primal import PrimalGG
-from Dual import DualGG
+from Sub import SubGG
 import matplotlib.pyplot as plt
 import matplotlib as mpl
   
@@ -75,11 +75,11 @@ class GGmodel:
   D = [50, 50, 100, 100]
   ek = [300]
   A = [[0 for x in range(len(l))] for y in range(len(l))] 
-  constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(l))] 
+  constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
   estoque = [[[0 for x in range(len(l))] for y in range(2)]]
   #constraints = [[[],[]],[[],[]]]
-  m_rownames = ["" for x in range(len(D))]
-  m_senses = ["" for x in range(len(D))]
+  m_rownames = ["" for x in range(len(D)+1)]
+  m_senses = ["" for x in range(len(D)+1)]
   custred = [0, 0, 0, 0]
   inicio = True
   
@@ -88,14 +88,14 @@ class GGmodel:
 
 
   gg = PrimalGG()
-  mo = DualGG()
+  mo = SubGG()
 
   #def declarations(self):
 
 
   def checacustosrelativos(self, custred):
     for i in range(len(custred)):
-      if (custred[i]<0):
+      if (custred[i]<=0):
         return True
       return False
     
@@ -105,11 +105,7 @@ class GGmodel:
       self.IT+=1
       self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
-      self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.m_rownames)
-      self.m_rownames = []
-      self.m_senses = []
-      self.gg.restricaoestoque(self.m_rownames, self.m_senses, self.estoque, self.m_colnames, self.m_obj)
-      self.gg.addconstraints(self.corte, self.estoque, self.m_senses, self.ek, self.m_rownames)
+      self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
 
         
@@ -119,6 +115,7 @@ class GGmodel:
       print(self.corte.solution.get_dual_values())
 
       self.M = self.corte.solution.get_dual_values()
+      self.M.pop()
 
 
       #print(M)
@@ -127,13 +124,16 @@ class GGmodel:
       self.m_obj = []
       self.m_ub = []
       self.m_lb = []
+      self.constraints = []
+      self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(len(self.l))] 
+
 
 
       self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
       for i in range(len(self.M)):
         self.m_rhs.append(self.L)
 
-      self.mo.addvariables(self.mochila, self.M, self.m_lb, self.D, self.m_colnames)
+      self.mo.addvariables(self.mochila, self.M, self.l, self.m_lb, self.D, self.m_colnames)
       self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M)
       self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
       self.mochila.solve()
@@ -154,7 +154,7 @@ class GGmodel:
       self.a = []
       self.corte = cplex.Cplex()
       self.mochila = cplex.Cplex()
-      self.constraints = [[[0 for x in range(self.N[0])] for y in range(2)] for w in range(len(self.l))]
+      self.constraints = [[[0 for x in range(self.N[0]+1)] for y in range(2)] for w in range(len(self.l)+1)]
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       #print(constraints)
       print(self.IT)

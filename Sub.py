@@ -4,9 +4,12 @@ import sys
 import numpy as np
 
 
-class DualGG:
+class SubGG:
   
-  def addvariables(self, prob, m_obj, m_lb, D, m_colnames):
+  def addvariables(self, prob, M, l, m_lb, D, m_colnames):
+    m_obj = []
+    for i in range(len(M)):
+      m_obj.append(M[i] + l[i])
     #print(m_obj)
     #print(m_lb)
     #print(D)
