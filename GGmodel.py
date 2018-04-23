@@ -62,7 +62,10 @@ import matplotlib as mpl
 #print(m_rownames)  
 
 class GGmodel:
+
+  STOP = True
   IT = 0
+  f = 0
   a = [0]
   N = [0] 
   m_colnames = []
@@ -92,16 +95,15 @@ class GGmodel:
 
   #def declarations(self):
 
-
-  def checacustosrelativos(self, custred):
+  """  def checacustosrelativos(self, custred):
     for i in range(len(custred)):
       if (custred[i]<=0):
         return True
-      return False
+      return False"""
     
   def method(self):
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
-    while(self.checacustosrelativos(self.custred) | self.inicio):
+    while(self.STOP | self.inicio):
       self.IT+=1
       self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
@@ -125,19 +127,19 @@ class GGmodel:
       self.m_ub = []
       self.m_lb = []
       self.constraints = []
-      self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(len(self.l))] 
-
-
+      self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(1)]
 
       self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
-      for i in range(len(self.M)):
-        self.m_rhs.append(self.L)
-
       self.mo.addvariables(self.mochila, self.M, self.l, self.m_lb, self.D, self.m_colnames)
+      self.m_rhs.append(self.L)
       self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M)
       self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
       self.mochila.solve()
       self.a = self.mochila.solution.get_values()
+      print(self.mochila.solution.get_objective_value())
+      self.f = self.mochila.solution.get_objective_value()
+      if (self.L - self.f >= -1):
+        self.STOP = False
       print(self.a)
       self.N[0] += 1
       self.A = np.transpose(self.A)
@@ -159,6 +161,7 @@ class GGmodel:
       #print(constraints)
       print(self.IT)
       self.inicio = False
+
 
   def __init__(self):
     self.method()
