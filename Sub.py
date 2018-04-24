@@ -17,7 +17,7 @@ class SubGG:
     prob.variables.add(obj = m_obj, lb = m_lb, ub = D, names = m_colnames)
 
   def __init__(self):
-    print("iniciodual")
+    print("inicioSub")
 
   def mochilainicio(self, m_colnames, l, m_obj, m_lb):
     for j in range(len(l)):

@@ -73,10 +73,10 @@ class GGmodel:
   m_rhs = []
   m_ub = []
   m_lb = []
-  L = 100
-  l = [50, 40, 30, 15]
-  D = [50, 50, 100, 100]
-  ek = [300]
+  L = 9 #100
+  l = [4, 3, 2] #[50, 40, 30, 15]
+  D = [10, 5, 3] #[50, 50, 100, 100]
+  ek = [20]
   A = [[0 for x in range(len(l))] for y in range(len(l))] 
   constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
   estoque = [[[0 for x in range(len(l))] for y in range(2)]]
@@ -154,6 +154,7 @@ class GGmodel:
       self.m_lb = []
       self.m_rhs = []
       self.a = []
+      print(self.corte.solution.get_objective_value())
       self.corte = cplex.Cplex()
       self.mochila = cplex.Cplex()
       self.constraints = [[[0 for x in range(self.N[0]+1)] for y in range(2)] for w in range(len(self.l)+1)]
