@@ -4,9 +4,12 @@ import sys
 import numpy as np
 
 
-class DualGG:
+class SubGG:
   
-  def addvariables(self, prob, m_obj, m_lb, D, m_colnames):
+  def addvariables(self, prob, M, l, m_lb, D, m_colnames):
+    m_obj = []
+    for i in range(len(M)):
+      m_obj.append(M[i] + l[i])
     #print(m_obj)
     #print(m_lb)
     #print(D)
@@ -14,7 +17,7 @@ class DualGG:
     prob.variables.add(obj = m_obj, lb = m_lb, ub = D, names = m_colnames)
 
   def __init__(self):
-    print("iniciodual")
+    print("inicioSub")
 
   def mochilainicio(self, m_colnames, l, m_obj, m_lb):
     for j in range(len(l)):
@@ -25,12 +28,12 @@ class DualGG:
 
 
   def restricoes(self, prob, m_colnames, m_rhs, l, constraints, M):
-    m_rownames = ["" for x in range(len(l))]
-    m_senses = ["L" for x in range(len(l))]
+    m_rownames = [""]
+    m_senses = ["L"]
+    m_rownames = [str("existencia" + str(1))]
+    constraints[0][0] = (m_colnames) #first_constraint = [["x1", "x2"], [1, 1.0]]
+    constraints[0][1] = (l)
     for i in range(len(M)):
-      m_rownames[i] = str("existencia" + str(i+1))
-      constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
-      constraints[i][1] = l
       prob.variables.set_types([(i, prob.variables.type.integer)])
     #print(m_colnames)
     #print(m_rhs)
