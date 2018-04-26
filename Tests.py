@@ -9,5 +9,5 @@ import matplotlib as mpl
 from GGmodel import GGmodel as GG
 import pytest as ptest
 
-prob = GG() 
+prob = GG([4, 3, 2], [10, 5, 3], 9, [10], "teste1.txt") 
 
