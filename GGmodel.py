@@ -125,7 +125,11 @@ class GGmodel:
       self.m_rhs.append(self.L)
       self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M)
       self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
-      self.mochila.solve()
+      try:
+        self.mochila.solve()
+      except IOError:
+        print("tentando de novo")
+        self.mochila.solve()
       self.a = self.mochila.solution.get_values()
       reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
       self.f = self.mochila.solution.get_objective_value()
@@ -156,6 +160,7 @@ class GGmodel:
 
 
   def __init__(self, l, D, L, ek, name):
+    reseau = 0
     self.l = l
     self.D = D
     self.L = L
