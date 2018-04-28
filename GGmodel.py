@@ -109,7 +109,11 @@ class GGmodel:
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
-      self.corte.solve()
+      try:
+        self.corte.solve()
+      except IOError:
+        print("tentando de novo")
+        self.corte.solve()
       reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       self.M.pop()
@@ -155,7 +159,6 @@ class GGmodel:
       self.constraints = [[[0 for x in range(self.N[0]+1)] for y in range(2)] for w in range(len(self.l)+1)]
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       #print(constraints)
-      print(self.IT)
       self.inicio = False
 
 
