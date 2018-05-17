@@ -23,6 +23,7 @@ class GGmodel:
   D = [] 
   ek = [0 for x in range(len(D))]
   A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
+  At = A
   constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
   estoque = [[[0 for x in range(len(l))] for y in range(2)]]
   m_rownames = ["" for x in range(len(D)*len(D)+len(D))]
@@ -55,33 +56,42 @@ class GGmodel:
         self.corte.solve()
       #reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
-      self.M.pop()
-      self.m_colnames = []
-      self.m_obj = []
-      self.m_ub = []
-      self.m_lb = []
-      self.constraints = []
-      self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(1)]
-      self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
-      self.mo.addvariables(self.mochila, self.M, self.l, self.m_lb, self.D, self.m_colnames)
-      self.m_rhs.append(self.L)
-      self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M)
-      self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
-      try:
-        self.mochila.solve()
-      except IOError:
-        self.mochila.solve()
-      self.a = self.mochila.solution.get_values()
-     # reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
-      self.f = self.mochila.solution.get_objective_value()
-      if (self.L - self.f >= -1):
-        self.STOP = False
-      #reseau.write('Padrão novo: ' + str(self.a) + '\n')
+      for i in range(len(self.D)):
+        self.M.pop()
+      
+      for i in range(len(self.D)):
+        self.m_obj = []
+        self.constraints = []
+        self.m_colnames = []
+        self.m_ub = []
+        self.m_lb = []
+        self.m_rhs = []
+        self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(1)]
+        self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
+        self.mo.addvariables(self.mochila, self.M[0+i*len(self.D): len(self.D)+i*len(self.D)], self.l, self.m_lb, self.D[i], self.m_colnames)
+        self.m_rhs.append(self.L)
+        self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M[0+i*len(self.D): len(self.D)+i*len(self.D)])
+        self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
+        try:
+          self.mochila.solve()
+        except IOError:
+          self.mochila.solve()
+        self.a = self.mochila.solution.get_values()
+      # reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
+        self.f = self.mochila.solution.get_objective_value()
+        if (self.L - self.f >= -1):
+          self.STOP = False
+        #reseau.write('Padrão novo: ' + str(self.a) + '\n')
+        self.At = []
+        self.At = self.A[i]
+        self.At = np.transpose(self.At)
+        self.At = np.vstack([self.At, self.a])
+        self.At = np.transpose(self.At)
+        self.A[i] = self.At
+        self.custred = self.corte.solution.get_reduced_costs()
+        self.mochila = cplex.Cplex()  
+      
       self.N[0] += 1
-      self.A = np.transpose(self.A)
-      self.A = np.vstack([self.A, self.a])
-      self.A = np.transpose(self.A)
-      self.custred = self.corte.solution.get_reduced_costs()
       self.m_colnames = []
       self.m_obj = []
       self.m_ub = []
@@ -103,6 +113,7 @@ class GGmodel:
     self.L = L
     self.ek = ek
     self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
+    self.At = self.A
     self.constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(D)*len(D)+len(D))] 
     self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
     self.m_rownames = ["" for x in range(len(D)*len(D)+len(D))]
