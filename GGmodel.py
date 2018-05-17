@@ -5,8 +5,6 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 class GGmodel:
 
@@ -24,11 +22,13 @@ class GGmodel:
   l = [] 
   D = [] 
   ek = []
-  A = [[0 for x in range(len(l))] for y in range(len(l))] 
+  A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
   constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
   estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-  m_rownames = ["" for x in range(len(D)+1)]
-  m_senses = ["" for x in range(len(D)+1)]
+  m_rownames = {["" for x in range(len(D[0]))] for y in range(len(D))}
+  m_senses = {["" for x in range(len(D[0]))] for y in range(len(D))}
+  r = [[0 for x in range(len(l))] for y in range(len(D))]
+  s = [0 for x in range(len(D))]
   custred = [0, 0, 0, 0]
   inicio = True
   
@@ -41,7 +41,7 @@ class GGmodel:
 
     
   def method(self, reseau):
-    self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
+    self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N, self.D)
     while(self.STOP | self.inicio):
       self.IT+=1
       self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
@@ -101,11 +101,13 @@ class GGmodel:
     self.D = D
     self.L = L
     self.ek = ek
-    self.A = [[0 for x in range(len(l))] for y in range(len(l))] 
+    self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
     self.constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
     self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-    self.m_rownames = ["" for x in range(len(D)+1)]
-    self.m_senses = ["" for x in range(len(D)+1)]
+    m_rownames = [["" for x in range(len(D[0]))] for y in range(len(D))]
+    m_senses = [["" for x in range(len(D[0]))] for y in range(len(D))]
+    r = [[0 for x in range(len(l))] for y in range(len(D))]
+    s = [0 for x in range(len(D))]
     reseau = open(name, 'w', 0)
     self.method(reseau)
     reseau.close()

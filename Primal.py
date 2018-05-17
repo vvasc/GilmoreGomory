@@ -39,12 +39,14 @@ class PrimalGG:
  
 
 
-  def padroesiniciais(self, m_colnames, L, l, A, N):
+  def padroesiniciais(self, m_colnames, L, l, A, N, D):
     for j in range(len(l)):
       if j != N[0]:
-        A[j][N[0]] = 0
+        for t in range(len(D)):
+          A[t][j][N[0]] = 0
       else: 
-        A[j][N[0]] = np.floor(L/l[j])
+        for t in range(len(D)):
+          A[t][j][N[0]] = np.floor(L/l[j])
       #aux +=
       #constraints.append([""])  
       N[0] += 1
