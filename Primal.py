@@ -7,27 +7,35 @@ import numpy as np
 
 class PrimalGG:
 
-  def restricoes(self, prob, m_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb):
-    for i in range(len(m_rhs)+1):
-      if (i==len(m_rhs)):
-        m_rownames[i] = "estoque"
-        m_senses[i] = "L"
-      else:
-        m_rownames[i] = str("demanda" + str(i+1))
-        m_senses[i] = "G"
-    for i in range(N[0]):
-      m_obj.append(1)
-      m_ub.append(cplex.infinity)
-      m_lb.append(0)
-      m_colnames.append(str("x" + str(i))) 
-    for i in range(len(m_rhs)+1):
-      if (i==len(m_rhs)):
-        constraints[i][0] = m_colnames
-        constraints[i][1] = m_obj
-      else:
-        constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
-      #print(A[i])
-        constraints[i][1] = A[i]
+  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb):
+    cont = 0
+    for i in range(len(m_rhs)): #Por periodo
+      for j in range(len(m_rhs[0])): #por demanda
+        m_rownames[cont] = str("demanda" + str(i+1)+ str(j+1))
+        m_senses[cont] = "G"
+        cont = cont + 1
+    for i in range(len(m_rhs)):    
+      m_rownames[cont] = str("estoque" + str(i+1))
+      m_senses[cont] = "L"
+      cont = cont + 1
+
+    for j in range(len(m_rhs)):
+      for i in range(N[0]):
+        m_obj.append(1)
+        m_ub.append(cplex.infinity)
+        m_lb.append(0)
+        m_colnames.append(str("x" + str(j+1) + str(i+1))) 
+        t_colnames[j][i] = str("x" + str(j+1) + str(i+1))
+    cont = 0;
+    for t in range(len(m_rhs)):
+      for i in range(N[0]):
+        constraints[cont][0] = t_colnames[i]
+        constraints[cont][1] = A[t][i]
+        cont = cont + 1
+    for i in range(len(m_rhs)):
+      constraints[cont][0] = m_colnames
+      constraints[cont][1] = m_obj  
+      cont = cont + 1
     #print(m_colnames)
     #print(constraints)
   
@@ -63,6 +71,8 @@ class PrimalGG:
   def addconstraints(self, prob, constraints, m_senses, D, ek, m_rownames):
     m_rhs = []
     for i in range(len(D)):
-      m_rhs.append(D[i])
-    m_rhs.append(ek[0])
+      for j in range(len(D[i])):
+        m_rhs.append(D[i][j])
+    for e in range(len(D)):
+      m_rhs.append(ek[e])
     prob.linear_constraints.add(lin_expr = constraints, senses = m_senses, rhs = m_rhs, names = m_rownames)
