@@ -100,8 +100,7 @@ class GGmodel:
       self.a = []
      # reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.corte = cplex.Cplex()
-      self.mochila = cplex.Cplex()
-      self.constraints = [[[0 for x in range(N[0])] for y in range(2)] for w in range(len(self.D)*len(self.D)+len(self.D))] 
+      self.constraints = [[[0 for x in range(self.N[0])] for y in range(2)] for w in range(len(self.D)*len(self.D)+len(self.D))] 
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       self.inicio = False
 
