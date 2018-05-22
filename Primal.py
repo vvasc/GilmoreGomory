@@ -7,13 +7,22 @@ import numpy as np
 
 class PrimalGG:
 
-  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb):
+  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, r_name, r_obj):
     cont = 0
+    Aaux = []
+    Aaux2 = []
+    t_colnamesaux = []
     for i in range(len(m_rhs)): #Por periodo
-      for j in range(len(m_rhs[0])): #por demanda
+      for j in range(len(m_rhs[0])): #por item
         m_rownames[cont] = str("demanda" + str(i+1)+ str(j+1))
         m_senses[cont] = "G"
         cont = cont + 1
+        m_obj.append(1)
+        r_obj.append(1)
+        r_name.append("r" + str(i+1) + str(j+1))
+        m_ub.append(cplex.infinity)
+        m_lb.append(0)
+
     for i in range(len(m_rhs)):    
       m_rownames[cont] = str("estoque" + str(i+1))
       m_senses[cont] = "L"
@@ -24,8 +33,29 @@ class PrimalGG:
         m_obj.append(1)
         m_ub.append(cplex.infinity)
         m_lb.append(0)
-        m_colnames.append(str("x" + str(j+1) + str(i+1))) 
-        t_colnames[j][i] = str("x" + str(j+1) + str(i+1))
+        m_colnames.append(str("x" + str(j+1) + str(i+1)))
+      for k in range(len(m_rhs)):
+        t_colnames[k][j] = m_colnames[0+j*len(m_rhs[0]):len(m_rhs[0])+j*len(m_rhs[0])]
+
+    for j in range(len(m_rhs)):
+      Aaux = list(A[j])
+      for i in range(len(m_rhs[0])):
+        if(j==0):
+          Aaux[i].append(-1)
+        else:
+          Aaux[i].append(1)
+          Aaux[i].append(-1)
+      for k in range(len(m_rhs)):
+        if (j==0):
+          t_colnames[j][k].append(r_name[0+k*len(m_rhs)]) #PRIMEIRO PERIODO
+        else:
+          t_colnames[j][k].append(r_name[0+k*len(m_rhs)])
+          t_colnames[j][k].append(r_name[0+k*len(m_rhs)])
+      Aaux2.append(Aaux)    
+
+
+
+
     cont = 0;
     for t in range(len(m_rhs)):
       for i in range(N[0]):
@@ -33,8 +63,8 @@ class PrimalGG:
         constraints[cont][1] = A[t][i]
         cont = cont + 1
     for i in range(len(m_rhs)):
-      constraints[cont][0] = m_colnames
-      constraints[cont][1] = m_obj  
+      constraints[cont][0] = m_colnames[0+i*len(m_rhs):len(m_rhs)+i*len(m_rhs)]
+      constraints[cont][1] = m_obj[0+i*len(m_rhs):len(m_rhs)+i*len(m_rhs)]  
       cont = cont + 1
     #print(m_colnames)
     #print(constraints)
@@ -61,7 +91,7 @@ class PrimalGG:
   def __init__(self):
     print("inicioprimal")
 
-  def addvariables(self, prob, m_obj, m_lb, m_ub, m_colnames):
+  def addvariables(self, prob, m_obj, m_lb, m_ub, m_colnames, r):
     #print(m_obj)
     #print(m_lb)
     #print(m_ub)
