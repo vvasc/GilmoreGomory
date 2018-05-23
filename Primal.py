@@ -7,7 +7,7 @@ import numpy as np
 
 class PrimalGG:
 
-  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, r_name, r_obj):
+  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, r_name, r_obj, s_name, s_obj):
     cont = 0
     Aaux = []
     Aaux2 = []
@@ -17,7 +17,6 @@ class PrimalGG:
         m_rownames[cont] = str("demanda" + str(i+1)+ str(j+1))
         m_senses[cont] = "G"
         cont = cont + 1
-        m_obj.append(1)
         r_obj.append(1)
         r_name.append("r" + str(i+1) + str(j+1))
         m_ub.append(cplex.infinity)
@@ -59,12 +58,12 @@ class PrimalGG:
     cont = 0;
     for t in range(len(m_rhs)):
       for i in range(N[0]):
-        constraints[cont][0] = t_colnames[i]
+        constraints[cont][0] = t_colnames[t][i]
         constraints[cont][1] = A[t][i]
         cont = cont + 1
     for i in range(len(m_rhs)):
-      constraints[cont][0] = m_colnames[0+i*len(m_rhs):len(m_rhs)+i*len(m_rhs)]
-      constraints[cont][1] = m_obj[0+i*len(m_rhs):len(m_rhs)+i*len(m_rhs)]  
+      constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
+      constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
       cont = cont + 1
     #print(m_colnames)
     #print(constraints)

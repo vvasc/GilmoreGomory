@@ -31,7 +31,8 @@ class GGmodel:
   r = [[0 for x in range(len(l))] for y in range(len(D))]
   r_obj = [0 for x in range(len(l)*len(D))]
   r_name = []
-  s = [0 for x in range(len(D))]
+  s_name = [0 for x in range(len(D))]
+  s_obj =[1 for x in range(len(ek))]
   t_colnames = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
   custred = [0, 0, 0, 0]
   inicio = True
@@ -48,7 +49,7 @@ class GGmodel:
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N, self.D)
     while(self.STOP | self.inicio):
       self.IT+=1
-      self.gg.restricoes(self.corte, self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj)
+      self.gg.restricoes(self.corte, self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj, self.s_name, self.s_obj)
       #self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames, self.r)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
@@ -122,7 +123,7 @@ class GGmodel:
     self.r = [[0 for x in range(len(l))] for y in range(len(D)+1)]
     self.r_obj = [0 for x in range(len(l)*len(D))]
     self.r_name = []
-    #self.s = [0 for x in range(len(D))]
+    self.s_name = [('s' + str(x)) for x in range(len(ek))]
     self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(len(self.l))] for z in range(len(self.D))] 
     #reseau = open(name, 'w', 0)
     self.method(reseau)
