@@ -28,7 +28,7 @@ class PrimalGG:
       m_senses[cont] = "L"
       cont = cont + 1
 
-    for j in range(len(m_rhs)):
+    for j in range(len(m_rhs[0])):
       for i in range(N[0]):
         m_obj.append(1)
         m_ub.append(cplex.infinity)
@@ -45,12 +45,12 @@ class PrimalGG:
         else:
           Aaux[i].append(1)
           Aaux[i].append(-1)
-      for k in range(len(m_rhs)):
+      for k in range(len(m_rhs[0])):
         if (j==0):
-          t_colnames[j][k].append(r_name[0+k*len(m_rhs)]) #PRIMEIRO PERIODO
+          t_colnames[j][k].append(r_name[0+k+j]) #PRIMEIRO PERIODO
         else:
-          t_colnames[j][k].append(r_name[0+k*len(m_rhs)])
-          t_colnames[j][k].append(r_name[0+k*len(m_rhs)])
+          t_colnames[j][k].append(r_name[0+k+(j-1)*len(m_rhs[0])])
+          t_colnames[j][k].append(r_name[len(m_rhs[0])+k+(j-1)*len(m_rhs[0])])
       Aaux2.append(Aaux)    
 
 
