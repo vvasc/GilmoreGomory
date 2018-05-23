@@ -4,10 +4,7 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 from GGmodel import GGmodel as GG
-import pytest as ptest
 import time
 
 #Classe 1
@@ -68,8 +65,8 @@ import time
 
 
 t0 = time.time()
-prob = GG([30, 29, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 6, 5], [1, 5, 6, 2, 5, 8, 7, 5, 2, 8, 1, 2, 8, 3, 1, 9, 2, 7, 9, 10], 94, [19], "exemplo 9")
-
+#prob = GG([30, 29, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 6, 5], [1, 5, 6, 2, 5, 8, 7, 5, 2, 8, 1, 2, 8, 3, 1, 9, 2, 7, 9, 10], 94, [19], "exemplo 9")
+prob = GG([4, 3, 2], [10, 5, 3], 9, [10], "teste1.txt") 
 print time.time() - t0,
 
 

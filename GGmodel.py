@@ -5,8 +5,6 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 class GGmodel:
 
@@ -71,7 +69,6 @@ class GGmodel:
       except IOError:
         self.mochila.solve()
       self.a = self.mochila.solution.get_values()
-      reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
       self.f = self.mochila.solution.get_objective_value()
       if (self.L - self.f >= -1):
         self.STOP = False
