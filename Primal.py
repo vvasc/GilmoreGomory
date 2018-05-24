@@ -46,14 +46,11 @@ class PrimalGG:
           Aaux[i].append(-1)
       for k in range(len(m_rhs[0])):
         if (j==0):
-          t_colnames[j][k].append(r_name[0+k+j]) #PRIMEIRO PERIODO
+          t_colnames[j][k].append(r_name[0+k+j]) 
         else:
           t_colnames[j][k].append(r_name[0+k+(j-1)*len(m_rhs[0])])
           t_colnames[j][k].append(r_name[len(m_rhs[0])+k+(j-1)*len(m_rhs[0])])
       Aaux2.append(Aaux)    
-
-
-    #como adicionar S aos períodos nas restrições de estoque????? fica a pergunta
 
     cont = 0;
     for t in range(len(m_rhs)):
@@ -62,8 +59,18 @@ class PrimalGG:
         constraints[cont][1] = A[t][i]
         cont = cont + 1
     for i in range(len(m_rhs)):
-      constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
-      constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
+      if (i==0):
+        constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
+        constraints[cont][0].append(s_name[i])
+        constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
+        constraints[cont][1].append(-1*s_obj[i])
+      else:
+        constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
+        constraints[cont][0].append(s_name[i-1])
+        constraints[cont][0].append(s_name[i])
+        constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
+        constraints[cont][1].append(s_obj[i-1])
+        constraints[cont][1].append(-1*s_obj[i])
       cont = cont + 1
     #print(m_colnames)
     #print(constraints)

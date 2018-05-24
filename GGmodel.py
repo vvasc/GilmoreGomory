@@ -31,7 +31,7 @@ class GGmodel:
   r = [[0 for x in range(len(l))] for y in range(len(D))]
   r_obj = [0 for x in range(len(l)*len(D))]
   r_name = []
-  s_name = [0 for x in range(len(D))]
+  s_name = [('s' + str(x+1)) for x in range(len(ek))]
   s_obj =[1 for x in range(len(ek))]
   t_colnames = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
   custred = [0, 0, 0, 0]
@@ -123,7 +123,8 @@ class GGmodel:
     self.r = [[0 for x in range(len(l))] for y in range(len(D)+1)]
     self.r_obj = [0 for x in range(len(l)*len(D))]
     self.r_name = []
-    self.s_name = [('s' + str(x)) for x in range(len(ek))]
+    self.s_name = [('s' + str(x+1)) for x in range(len(ek))]
+    self.s_obj =[1 for x in range(len(ek))]
     self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(len(self.l))] for z in range(len(self.D))] 
     #reseau = open(name, 'w', 0)
     self.method(reseau)
