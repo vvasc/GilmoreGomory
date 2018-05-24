@@ -27,14 +27,14 @@ class PrimalGG:
       m_senses[cont] = "L"
       cont = cont + 1
 
-    for j in range(len(m_rhs[0])):
+    for j in range(len(m_rhs)):
       for i in range(N[0]):
         m_obj.append(1)
         m_ub.append(cplex.infinity)
         m_lb.append(0)
         m_colnames.append(str("x" + str(j+1) + str(i+1)))
-      for k in range(len(m_rhs)):
-        t_colnames[k][j] = m_colnames[0+j*len(m_rhs[0]):len(m_rhs[0])+j*len(m_rhs[0])]
+      for k in range(len(m_rhs[0])):
+        t_colnames[j][k] = m_colnames[0+j*len(m_rhs[0]):len(m_rhs[0])+j*len(m_rhs[0])]
 
     for j in range(len(m_rhs)):
       Aaux = list(A[j])
