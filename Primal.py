@@ -72,6 +72,14 @@ class PrimalGG:
         constraints[cont][1].append(s_obj[i-1])
         constraints[cont][1].append(-1*s_obj[i])
       cont = cont + 1
+
+    for k in range(len(r_name)):
+      m_obj.append(1)           #trocar para custos futuramente
+
+    for k in range(len(s_name)):
+      m_obj.append(1)
+      m_ub.append(cplex.infinity)
+      m_lb.append(0)
     #print(m_colnames)
     #print(constraints)
   
@@ -97,12 +105,16 @@ class PrimalGG:
   def __init__(self):
     print("inicioprimal")
 
-  def addvariables(self, prob, m_obj, m_lb, m_ub, m_colnames, r):
+  def addvariables(self, prob, m_obj, m_lb, m_ub, m_colnames, r_name, s_name):
+    aux_colnames = []
+    aux_colnames.__iadd__(m_colnames)
+    aux_colnames.__iadd__(r_name)
+    aux_colnames.__iadd__(s_name)
     #print(m_obj)
     #print(m_lb)
     #print(m_ub)
     #print(m_colnames)
-    prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
+    prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = aux_colnames)
 
   def addconstraints(self, prob, constraints, m_senses, D, ek, m_rownames):
     m_rhs = []
