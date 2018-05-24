@@ -6,6 +6,8 @@ import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
 
+import copy as copy
+
 class GGmodel:
 
   STOP = True
@@ -36,7 +38,8 @@ class GGmodel:
   t_colnames = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
   custred = [0, 0, 0, 0]
   inicio = True
-  
+  Aaux = []
+
   corte = cplex.Cplex()
   mochila = cplex.Cplex()
 
@@ -47,6 +50,7 @@ class GGmodel:
     
   def method(self, reseau):
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N, self.D)
+    self.Aaux = np.copy(self.A)
     while(self.STOP | self.inicio):
       self.IT+=1
       self.gg.restricoes(self.corte, self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj, self.s_name, self.s_obj)
@@ -62,6 +66,8 @@ class GGmodel:
       for i in range(len(self.s_name)):
         self.M.pop()
       
+      self.A = list(self.Aaux)
+      
       for i in range(len(self.D)):
         self.m_obj = []
         self.constraints = []
@@ -71,9 +77,9 @@ class GGmodel:
         self.m_rhs = []
         self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(1)]
         self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
-        self.mo.addvariables(self.mochila, self.M[0+i*len(self.D): len(self.D)+i*len(self.D)], self.l, self.m_lb, self.D[i], self.m_colnames)
+        self.mo.addvariables(self.mochila, self.M[0+i*len(self.D[0]): len(self.D[0])+i*len(self.D[0])], self.l, self.m_lb, self.D[i], self.m_colnames)
         self.m_rhs.append(self.L)
-        self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M[0+i*len(self.D): len(self.D)+i*len(self.D)])
+        self.mo.restricoes(self.mochila, self.m_colnames, self.m_rhs, self.l, self.constraints, self.M[0+i*len(self.D[0]): len(self.D[0])+i*len(self.D[0])])
         self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
         try:
           self.mochila.solve()
@@ -82,7 +88,7 @@ class GGmodel:
         self.a = self.mochila.solution.get_values()
       # reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
         self.f = self.mochila.solution.get_objective_value()
-        if (self.L - self.f >= -1): #arrumar aqui!  
+        if (1 - self.f >= 0): #arrumar aqui!  
           self.STOP = False
         #reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
