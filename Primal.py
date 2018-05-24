@@ -53,7 +53,7 @@ class PrimalGG:
       Aaux2.append(Aaux)    
 
 
-
+    #como adicionar S aos períodos nas restrições de estoque????? fica a pergunta
 
     cont = 0;
     for t in range(len(m_rhs)):
