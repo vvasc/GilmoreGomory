@@ -63,15 +63,15 @@ class PrimalGG:
         cont = cont + 1
     for i in range(len(m_rhs)):
       if (i==0):
-        constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
+        constraints[cont][0] = m_colnames[0+i*N[0]:N[0]+i*N[0]]
         constraints[cont][0].append(s_name[i])
-        constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
+        constraints[cont][1] = m_obj[0+i*N[0]:N[0]+i*N[0]]  
         constraints[cont][1].append(-1*s_obj[i])
       else:
-        constraints[cont][0] = m_colnames[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]
+        constraints[cont][0] = m_colnames[0+i*N[0]:N[0]+i*N[0]]
         constraints[cont][0].append(s_name[i-1])
         constraints[cont][0].append(s_name[i])
-        constraints[cont][1] = m_obj[0+i*len(m_rhs[0]):len(m_rhs[0])+i*len(m_rhs[0])]  
+        constraints[cont][1] = m_obj[0+i*N[0]:N[0]+i*N[0]]  
         constraints[cont][1].append(s_obj[i-1])
         constraints[cont][1].append(-1*s_obj[i])
       cont = cont + 1
