@@ -33,17 +33,20 @@ class PrimalGG:
         m_ub.append(cplex.infinity)
         m_lb.append(0)
         m_colnames.append(str("x" + str(j+1) + str(i+1)))
-      for k in range(len(m_rhs[0])):
-        t_colnames[j][k] = m_colnames[0+j*len(m_rhs[0]):len(m_rhs[0])+j*len(m_rhs[0])]
+      for k in range(N[0]):
+        t_colnames[j][k] = m_colnames[0+j*N[0]:N[0]+j*N[0]]
 
     for j in range(len(m_rhs)):
       Aaux = list(A[j])
       for i in range(len(m_rhs[0])):
         if(j==0):
-          Aaux[i].append(-1)
+          #Aaux[i].append(-1)
+          Aaux[i] = np.append(Aaux[i], -1)
         else:
-          Aaux[i].append(1)
-          Aaux[i].append(-1)
+          #Aaux[i].append(1)
+          #Aaux[i].append(-1)
+          Aaux[i] = np.append(Aaux[i], 1)
+          Aaux[i] = np.append(Aaux[i], -1)
       for k in range(len(m_rhs[0])):
         if (j==0):
           t_colnames[j][k].append(r_name[0+k+j]) 
@@ -54,9 +57,9 @@ class PrimalGG:
 
     cont = 0;
     for t in range(len(m_rhs)):
-      for i in range(N[0]):
+      for i in range(len(m_rhs[0])):
         constraints[cont][0] = t_colnames[t][i]
-        constraints[cont][1] = A[t][i]
+        constraints[cont][1] = Aaux2[t][i]
         cont = cont + 1
     for i in range(len(m_rhs)):
       if (i==0):

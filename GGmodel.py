@@ -12,7 +12,7 @@ class GGmodel:
 
   STOP = True
   IT = 0
-  f = 0
+  f = []
   a = [0]
   N = [0] 
   m_colnames = []
@@ -46,6 +46,12 @@ class GGmodel:
 
   gg = PrimalGG()
   mo = SubGG()
+
+  def solucaootima(self, f):
+    for i in range(len(f)):
+      if (1-f[i]<=0):
+        return False
+    return True
 
     
   def method(self, reseau):
@@ -87,8 +93,8 @@ class GGmodel:
           self.mochila.solve()
         self.a = self.mochila.solution.get_values()
       # reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
-        self.f = self.mochila.solution.get_objective_value()
-        if (1 - self.f >= 0): #arrumar aqui!  
+        self.f.append(self.mochila.solution.get_objective_value())
+        if (self.solucaootima(self.f)): 
           self.STOP = False
         #reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
@@ -107,9 +113,12 @@ class GGmodel:
       self.m_lb = []
       self.m_rhs = []
       self.a = []
+      self.f = []
+      self.r_name = []
      # reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.corte = cplex.Cplex()
-      self.constraints = [[[0 for x in range(self.N[0])] for y in range(2)] for w in range(len(self.D)*len(self.D)+len(self.D))] 
+      self.constraints = [[[0 for x in range(len(self.D))] for y in range(2)] for w in range(len(self.D)*len(self.D))] 
+      self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(self.N[0])] for z in range(len(self.D))] 
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       self.inicio = False
 
