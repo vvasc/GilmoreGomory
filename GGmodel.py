@@ -49,7 +49,7 @@ class GGmodel:
 
   def solucaootima(self, f):
     for i in range(len(f)):
-      if (1-f[i]<=0):
+      if (1-f[i]<0):
         return False
     return True
 
@@ -59,6 +59,7 @@ class GGmodel:
     self.Aaux = np.copy(self.A)
     while(self.STOP | self.inicio):
       self.IT+=1
+      self.Aaux = np.copy(self.A)
       self.gg.restricoes(self.corte, self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj, self.s_name, self.s_obj)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames, self.r_name, self.s_name)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
@@ -98,7 +99,7 @@ class GGmodel:
           self.STOP = False
         #reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
-        self.At = self.A[i]
+        self.At = self.A[i]     #problema@!!!!
         self.At = np.transpose(self.At)
         self.At = np.vstack([self.At, self.a])
         self.At = np.transpose(self.At)
