@@ -5,11 +5,8 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
-<<<<<<< HEAD
-=======
 
 import copy as copy
->>>>>>> mult2
 
 class GGmodel:
 
@@ -71,7 +68,7 @@ class GGmodel:
         self.corte.solve()
       except IOError:
         self.corte.solve()
-      #reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
+      reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       for i in range(len(self.s_name)):
         self.M.pop()
@@ -96,11 +93,11 @@ class GGmodel:
         except IOError:
           self.mochila.solve()
         self.a = self.mochila.solution.get_values()
-      # reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
+        reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
         self.f.append(self.mochila.solution.get_objective_value())
         if (self.solucaootima(self.f)): 
           self.STOP = False
-        #reseau.write('Padrão novo: ' + str(self.a) + '\n')
+        reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
         self.At = self.A[i]     #problema@!!!!
         self.At = np.transpose(self.At)
@@ -119,9 +116,9 @@ class GGmodel:
       self.a = []
       self.f = []
       self.r_name = []
-     # reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
+      reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.corte = cplex.Cplex()
-      self.constraints = [[[0 for x in range(len(self.D))] for y in range(2)] for w in range(len(self.D)*len(self.D))] 
+      self.constraints = [[[0 for x in range(len(self.D))] for y in range(2)] for w in range(len(self.D)*len(self.D[0]) + len(self.D))] 
       self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(self.N[0])] for z in range(len(self.D))] 
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       self.inicio = False
@@ -135,19 +132,19 @@ class GGmodel:
     self.ek = ek
     self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(D))] 
     self.At = self.A
-    self.constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(D)*len(D))] 
+    self.constraints = [[[0 for x in range(len(l))] for y in range(2)] for w in range(len(D)*len(D[0]) + len(D))] 
     self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-    self.m_rownames = ["" for x in range(len(D)*len(D))]
-    self.m_senses = ["" for x in range(len(D)*len(D))]
+    self.m_rownames = ["" for x in range(len(D)*len(D[0]) + len(D))]
+    self.m_senses = ["" for x in range(len(D)*len(D[0]) +len(D))]
     self.r = [[0 for x in range(len(l))] for y in range(len(D)+1)]
     self.r_obj = [0 for x in range(len(l)*len(D))]
     self.r_name = []
     self.s_name = [('s' + str(x+1)) for x in range(len(ek))]
     self.s_obj =[1 for x in range(len(ek))]
     self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(len(self.l))] for z in range(len(self.D))] 
-    #reseau = open(name, 'w', 0)
+    reseau = open(name, 'w', 0)
     self.method(reseau)
-    #reseau.close()
+    reseau.close()
 
     
 
