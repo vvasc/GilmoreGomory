@@ -99,7 +99,7 @@ class GGmodel:
           self.STOP = False
         reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
-        self.At = self.A[i]     #problema@!!!!
+        self.At = self.A[i]     
         self.At = np.transpose(self.At)
         self.At = np.vstack([self.At, self.a])
         self.At = np.transpose(self.At)
