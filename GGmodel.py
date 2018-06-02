@@ -70,7 +70,7 @@ class GGmodel:
         self.mochila.solve()
       self.a = self.mochila.solution.get_values()
       self.f = self.mochila.solution.get_objective_value()
-      if (self.L - self.f >= -1):
+      if (1 - self.f >= 0):
         self.STOP = False
       reseau.write('Padrão novo: ' + str(self.a) + '\n')
       self.N[0] += 1
