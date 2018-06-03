@@ -39,6 +39,7 @@ class GGmodel:
   custred = [0, 0, 0, 0]
   inicio = True
   Aaux = []
+  pi = []
 
   corte = cplex.Cplex()
   mochila = cplex.Cplex()
@@ -49,7 +50,7 @@ class GGmodel:
 
   def solucaootima(self, f):
     for i in range(len(f)):
-      if (1-f[i]<0):
+      if (1-f[i]<self.pi[i]):
         return False
     return True
 
@@ -60,7 +61,7 @@ class GGmodel:
     while(self.STOP | self.inicio):
       self.IT+=1
       self.Aaux = np.copy(self.A)
-      self.gg.restricoes(self.corte, self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj, self.s_name, self.s_obj)
+      self.gg.restricoes(self.m_colnames, self.t_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.r_name, self.r_obj, self.s_name, self.s_obj, self.l, self.L)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames, self.r_name, self.s_name)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
@@ -68,11 +69,14 @@ class GGmodel:
         self.corte.solve()
       except IOError:
         self.corte.solve()
-      reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
+      sol = self.corte.solution.get_values(self.m_colnames)
+      tot = self.corte.solution.get_values()
+      sol = sum(sol)
+      reseau.write('Solution: ' + str(sol) + '\n')
       self.M = self.corte.solution.get_dual_values()
       for i in range(len(self.s_name)):
-        self.M.pop()
-      
+        self.pi.append(self.M.pop())
+      self.M = map(abs, self.M)
       self.A = list(self.Aaux)
       
       for i in range(len(self.D)):
@@ -95,8 +99,8 @@ class GGmodel:
         self.a = self.mochila.solution.get_values()
         reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
         self.f.append(self.mochila.solution.get_objective_value())
-        if (self.solucaootima(self.f)): 
-          self.STOP = False
+       # if (self.solucaootima(self.f)): 
+        #  self.STOP = False
         reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
         self.At = self.A[i]     
@@ -122,6 +126,8 @@ class GGmodel:
       self.t_colnames = [[[0 for x in range(len(self.l))] for y in range(self.N[0])] for z in range(len(self.D))] 
       self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
       self.inicio = False
+      if (self.STOP):
+        self.inicio = True
 
 
   def __init__(self, l, D, L, ek, name):

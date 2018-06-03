@@ -7,15 +7,14 @@ import numpy as np
 
 class PrimalGG:
 
-  def restricoes(self, prob, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, r_name, r_obj, s_name, s_obj):
+  def restricoes(self, m_colnames, t_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, r_name, r_obj, s_name, s_obj, l, L):
     cont = 0
     Aaux = []
     Aaux2 = []
-    t_colnamesaux = []
     for i in range(len(m_rhs)): #Por periodo
       for j in range(len(m_rhs[0])): #por item
         m_rownames[cont] = str("demanda" + str(i+1)+ str(j+1))
-        m_senses[cont] = "G"
+        m_senses[cont] = "E"
         cont = cont + 1
         r_obj.append(1)
         r_name.append("r" + str(i+1) + str(j+1))
@@ -24,7 +23,7 @@ class PrimalGG:
 
     for i in range(len(m_rhs)):    
       m_rownames[cont] = str("estoque" + str(i+1))
-      m_senses[cont] = "L"
+      m_senses[cont] = "E"
       cont = cont + 1
 
     for j in range(len(m_rhs)):
@@ -75,12 +74,13 @@ class PrimalGG:
         constraints[cont][1].append(s_obj[i-1])
         constraints[cont][1].append(-1*s_obj[i])
       cont = cont + 1
-
+    aux = 0
     for k in range(len(r_name)):
-      m_obj.append(1)           #trocar para custos futuramente
+      m_obj.append(0.01*l[aux]) 
+      aux = (aux+1) if (aux<len(l)-1) else 0
 
     for k in range(len(s_name)):
-      m_obj.append(1)
+      m_obj.append(0.01*L) 
       m_ub.append(cplex.infinity)
       m_lb.append(0)
     #print(m_colnames)
