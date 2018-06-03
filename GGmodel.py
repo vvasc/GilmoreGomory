@@ -76,7 +76,6 @@ class GGmodel:
       self.M = self.corte.solution.get_dual_values()
       for i in range(len(self.s_name)):
         self.pi.append(self.M.pop())
-      self.M = map(abs, self.M)
       self.A = list(self.Aaux)
       
       for i in range(len(self.D)):
@@ -99,8 +98,8 @@ class GGmodel:
         self.a = self.mochila.solution.get_values()
         reseau.write('Solution mochila: ' + str(self.mochila.solution.get_objective_value()) + '\n')
         self.f.append(self.mochila.solution.get_objective_value())
-       # if (self.solucaootima(self.f)): 
-        #  self.STOP = False
+        if (self.solucaootima(self.f)): 
+          self.STOP = False
         reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.At = []
         self.At = self.A[i]     
