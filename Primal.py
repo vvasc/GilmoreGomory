@@ -11,10 +11,10 @@ class PrimalGG:
     for i in range(len(m_rhs)+1):
       if (i==len(m_rhs)):
         m_rownames[i] = "estoque"
-        m_senses[i] = "L"
+        m_senses[i] = "E"
       else:
         m_rownames[i] = str("demanda" + str(i+1))
-        m_senses[i] = "G"
+        m_senses[i] = "E"
     for i in range(N[0]):
       m_obj.append(1)
       m_ub.append(cplex.infinity)
