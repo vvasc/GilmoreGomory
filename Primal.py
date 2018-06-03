@@ -14,7 +14,7 @@ class PrimalGG:
     for i in range(len(m_rhs)): #Por periodo
       for j in range(len(m_rhs[0])): #por item
         m_rownames[cont] = str("demanda" + str(i+1)+ str(j+1))
-        m_senses[cont] = "E"
+        m_senses[cont] = "G"
         cont = cont + 1
         r_obj.append(1)
         r_name.append("r" + str(i+1) + str(j+1))
@@ -26,7 +26,7 @@ class PrimalGG:
       if (i==len(m_rhs)):
         m_senses[cont] = "L"
       else:
-        m_senses[cont] = "E"
+        m_senses[cont] = "L"
       cont = cont + 1
 
     for j in range(len(m_rhs)):
@@ -83,7 +83,7 @@ class PrimalGG:
       aux = (aux+1) if (aux<len(l)-1) else 0
 
     for k in range(len(s_name)):
-      m_obj.append(0.01*L) 
+      m_obj.append(1*L) 
       m_ub.append(cplex.infinity)
       m_lb.append(0)
     #print(m_colnames)
