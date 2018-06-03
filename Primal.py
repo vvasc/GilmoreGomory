@@ -23,7 +23,10 @@ class PrimalGG:
 
     for i in range(len(m_rhs)):    
       m_rownames[cont] = str("estoque" + str(i+1))
-      m_senses[cont] = "E"
+      if (i==len(m_rhs)):
+        m_senses[cont] = "L"
+      else:
+        m_senses[cont] = "E"
       cont = cont + 1
 
     for j in range(len(m_rhs)):
