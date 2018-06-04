@@ -93,7 +93,8 @@ t0 = time.time()
 #prob = GG([4, 3, 2], [12, 0, 7], 9, [35], "testet3.txt") 
 #prob = GG([4, 3, 2], [5, 6, 20], 9, [8], "testet4.txt") 
 
-
+#prob = GG([4, 3, 2], [10, 5, 3], 9, [10], "teste1.txt") 
+prob = GG([4, 3, 2], [0, 5, 7], 9, [9], "teste2.txt") 
 
 print time.time() - t0,
 
