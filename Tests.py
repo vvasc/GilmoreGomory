@@ -94,7 +94,12 @@ t0 = time.time()
 #prob = GG([4, 3, 2], [5, 6, 20], 9, [8], "testet4.txt") 
 
 #prob = GG([4, 3, 2], [10, 5, 3], 9, [10], "teste1.txt") 
-prob = GG([4, 3, 2], [0, 5, 7], 9, [9], "teste2.txt") 
+#prob = GG([4, 3, 2], [0, 5, 7], 9, [9], "teste2.txt") ]
+
+#prob = GG([4, 3, 2], [10, 5, 3], 9, [10], "testet1.txt") 
+#prob = GG([4, 3, 2], [0, 5, 7], 9, [9], "testet2.txt") 
+#prob = GG([4, 3, 2], [7, 10, 6], 9, [10], "testet3.txt") 
+#prob = GG([4, 3, 2], [3, 0, 4], 9, [10], "testet4.txt") 
 
 print time.time() - t0,
 
