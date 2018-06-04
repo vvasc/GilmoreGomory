@@ -50,7 +50,7 @@ class GGmodel:
 
   def solucaootima(self, f):
     for i in range(len(f)):
-      if (1-f[i]<self.pi[i]):
+      if (1-f[i]-self.pi[i]<0):
         return False
     return True
 
@@ -119,6 +119,7 @@ class GGmodel:
       self.a = []
       self.f = []
       self.r_name = []
+      self.pi = []
       reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.corte = cplex.Cplex()
       self.constraints = [[[0 for x in range(len(self.D))] for y in range(2)] for w in range(len(self.D)*len(self.D[0]) + len(self.D))] 
