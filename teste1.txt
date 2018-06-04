@@ -1,367 +1,50 @@
-Solution: 21.6666666667
-Solution mochila: 1.18083333333
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.08333333333
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.08333333333
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 21.7041666667
-Solution: 20.5555555556
-Solution mochila: 1.15055555556
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.7855555556
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
-Solution mochila: 1.0
-Padrão novo: [2.0, 0.0, -0.0]
-Função Objetivo: 20.5627777778
-Solution: 20.2777777778
-Solution mochila: 1.09
-Padrão novo: [2.0, 0.0, 0.0]
-Solution mochila: 1.0
-Padrão novo: [0.0, 1.0, 3.0]
-Solution mochila: 1.0
-Padrão novo: [1.0, 1.0, 1.0]
+Solution: 58.8333333333
+Solution mochila: 1.8
+Padrão novo: [1.0, 1.0, 0.0, 0.0, 0.0]
+Solution mochila: 1.5
+Padrão novo: [1.0, 1.0, 0.0, 0.0, 0.0]
+Solution mochila: 1.33333333333
+Padrão novo: [0.0, 2.0, -0.0, 2.0, -0.0]
+Solution mochila: 1.5
+Padrão novo: [1.0, 1.0, 0.0, 0.0, 0.0]
+Função Objetivo: 59.06
+Solution: 43.3333333333
+Solution mochila: 1.26333333333
+Padrão novo: [1.0, -0.0, -0.0, 2.0, 1.0]
+Solution mochila: 1.19333333333
+Padrão novo: [1.0, -0.0, 0.0, 2.0, 1.0]
+Solution mochila: 1.1
+Padrão novo: [0.0, 0.0, 0.0, 6.0, 1.0]
+Solution mochila: 1.4
+Padrão novo: [1.0, 0.0, 1.0, 0.0, 2.0]
+Função Objetivo: 46.4833333333
+Solution: 41.6666666667
+Solution mochila: 1.17
+Padrão novo: [1.0, -0.0, 2.0, -0.0, -0.0]
+Solution mochila: 1.1
+Padrão novo: [1.0, 0.0, 0.0, 0.0, 4.0]
+Solution mochila: 1.04
+Padrão novo: [0.0, 2.0, 1.0, 0.0, 1.0]
+Solution mochila: 1.14
+Padrão novo: [1.0, 0.0, 2.0, 0.0, 0.0]
+Função Objetivo: 44.31
+Solution: 41.2
+Solution mochila: 1.015
+Padrão novo: [1.0, 0.0, 1.0000000000000002, -0.0, 1.9999999999999996]
+Solution mochila: 1.0
+Padrão novo: [1.0, 0.0, 0.0, 0.0, 4.0]
+Solution mochila: 1.0
+Padrão novo: [0.0, -0.0, 5.0, -0.0, -0.0]
+Solution mochila: 1.0
+Padrão novo: [1.0, 0.0, 0.0, 0.0, 4.0]
+Função Objetivo: 43.2
+Solution: 41.2
+Solution mochila: 1.0
+Padrão novo: [1.0, 1.0, 0.0, 0.0, 0.0]
+Solution mochila: 1.0
+Padrão novo: [1.0, 0.0, 0.0, 0.0, 4.0]
+Solution mochila: 1.0
+Padrão novo: [0.0, -0.0, 5.0, -0.0, -0.0]
+Solution mochila: 1.0
+Padrão novo: [1.0, 0.0, 0.0, 0.0, 4.0]
+Função Objetivo: 43.19625
