@@ -12,7 +12,7 @@ class GGmodel:
   IT = 0
   f = 0
   a = [0]
-  N = [0] 
+  N = [] 
   m_colnames = []
   m_obj = [] 
   m_rhs = []
@@ -22,12 +22,12 @@ class GGmodel:
   l = [] 
   D = [] 
   ek = []
-  A = [[0 for x in range(len(l))] for y in range(len(l))] 
-  constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
-  estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-  m_rownames = ["" for x in range(len(D)+1)]
-  m_senses = ["" for x in range(len(D)+1)]
-  custred = [0, 0, 0, 0]
+  A = []
+  constraints = []
+  estoque = []
+  m_rownames = []
+  m_senses = []
+  custred = []
   inicio = True
   
   corte = cplex.Cplex()
@@ -42,7 +42,7 @@ class GGmodel:
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
     while(self.STOP | self.inicio):
       self.IT+=1
-      self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb)
+      self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.L)
       self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
       self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
       self.corte.objective.set_sense(self.corte.objective.sense.minimize)
@@ -50,7 +50,7 @@ class GGmodel:
         self.corte.solve()
       except IOError:
         self.corte.solve()
-      reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
+      #reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       self.M.pop()
       self.m_colnames = []
@@ -72,7 +72,7 @@ class GGmodel:
       self.f = self.mochila.solution.get_objective_value()
       if (1 - self.f >= 0):
         self.STOP = False
-      reseau.write('Padrão novo: ' + str(self.a) + '\n')
+      #reseau.write('Padrão novo: ' + str(self.a) + '\n')
       self.N[0] += 1
       self.A = np.transpose(self.A)
       self.A = np.vstack([self.A, self.a])
@@ -84,7 +84,7 @@ class GGmodel:
       self.m_lb = []
       self.m_rhs = []
       self.a = []
-      reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
+      #reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.corte = cplex.Cplex()
       self.mochila = cplex.Cplex()
       self.constraints = [[[0 for x in range(self.N[0]+1)] for y in range(2)] for w in range(len(self.l)+1)]
@@ -98,14 +98,19 @@ class GGmodel:
     self.D = D
     self.L = L
     self.ek = ek
-    self.A = [[0 for x in range(len(l))] for y in range(len(l))] 
-    self.constraints = [[[0 for x in range(len(l)+1)] for y in range(2)] for w in range(len(l)+1)] 
+    self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(L))]
+    self.N = [0 for x in range(len(L))]
+    self.constraints = [[[0 for x in range(len(l)*2)] for y in range(2)] for w in range(len(l)+len(D))] 
     self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-    self.m_rownames = ["" for x in range(len(D)+1)]
-    self.m_senses = ["" for x in range(len(D)+1)]
-    reseau = open(name, 'w', 0)
+    self.m_rownames = ["" for x in range(len(D)+len(L))]
+    self.m_colnames = [["" for x in range(len(l))] for y in range(len(L))]
+    self.m_senses = ["" for x in range(len(D)+len(L))]
+    self.m_obj  = [[0 for x in range(len(l))] for y in range(len(L))]
+    self.m_ub = [[0 for x in range(len(l))] for y in range(len(L))]
+    self.m_lb = [[0 for x in range(len(l))] for y in range(len(L))]
+    #reseau = open(name, 'w', 0)
     self.method(reseau)
-    reseau.close()
+    #reseau.close()
 
     
 

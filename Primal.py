@@ -7,55 +7,62 @@ import numpy as np
 
 class PrimalGG:
 
-  def restricoes(self, prob, m_colnames, m_rhs, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb):
-    for i in range(len(m_rhs)+1):
-      if (i==len(m_rhs)):
-        m_rownames[i] = "estoque"
-        m_senses[i] = "L"
-      else:
-        m_rownames[i] = str("demanda" + str(i+1))
-        m_senses[i] = "G"
-    for i in range(N[0]):
-      m_obj.append(1)
-      m_ub.append(cplex.infinity)
-      m_lb.append(0)
-      m_colnames.append(str("x" + str(i))) 
-    for i in range(len(m_rhs)+1):
-      if (i==len(m_rhs)):
-        constraints[i][0] = m_colnames
-        constraints[i][1] = m_obj
-      else:
-        constraints[i][0] = m_colnames #first_constraint = [["x1", "x2"], [1, 1.0]]
-      #print(A[i])
-        constraints[i][1] = A[i]
-    #print(m_colnames)
-    #print(constraints)
+  def setNomeRestricoes(self, D, L, m_rownames, m_senses):
+    for i in range(len(D)):
+      m_rownames[i] = str("demanda" + str(i+1))
+      m_senses[i] = "G"
+    for j in range(len(D), len(D)+len(L), 1):
+      m_rownames[j] = "estoque"
+      m_senses[j] = "L"
   
-  def restricaoestoque(self, m_rownames, m_senses, estoque, m_colnames, m_obj):
-    estoque[0] = m_colnames
-    estoque.append(m_obj)
-    m_senses.append("L")
-    m_rownames.append("Estoque")
+  def setVariaveisDecisao(self, m_obj, m_ub, m_lb, m_colnames, N, L):
+    for k in range(len(L)):
+      for i in range(N[k]):
+        m_obj[k][i] = 1
+        m_ub[k][i] = cplex.infinity
+        m_lb[k][i] = 0
+        m_colnames[k][i] = (str("x" + str(i) + str(k))) 
+  
+  def setLinearExpressionConstsDemanda(self, D, m_colnames, A, constraints):
+    for d in range(len(D)):
+      constraints[d][0] = np.append(m_colnames[0], m_colnames[1])
+      constraints[d][1] = np.append(A[0][d], A[1][d])
+  
+  def setLinearExpressionConstsEstoque(self, D, L, m_colnames, constraints, m_obj):
+    for e in range(len(D), len(D)+len(L), 1):
+      constraints[e][0] = m_colnames[e-len(D)]
+      constraints[e][1] = m_obj[e-len(D)]
+    
+  def restricoes(self, prob, m_colnames, D, A, constraints, N, m_rownames, m_senses, m_obj, m_ub, m_lb, L):
+    self.setNomeRestricoes(D, L, m_rownames, m_senses)
+    self.setVariaveisDecisao(m_obj, m_ub, m_lb, m_colnames, N, L)
+    self.setLinearExpressionConstsDemanda(D, m_colnames, A, constraints)
+    self.setLinearExpressionConstsEstoque(D, L, m_colnames, constraints, m_obj)
  
-
-
   def padroesiniciais(self, m_colnames, L, l, A, N):
-    for j in range(len(l)):
-      if j != N[0]:
-        A[j][N[0]] = 0
-      else: 
-        A[j][N[0]] = np.floor(L/l[j])
-      #aux +=
-      #constraints.append([""])  
-      N[0] += 1
+    for k in range(len(L)):
+      for j in range(len(l)):
+        if j != N[k]:
+          A[k][j][N[k]] = 0
+        else: 
+          A[k][j][N[k]] = np.floor(L[k]/l[j])
+        N[k] += 1
+
   def __init__(self):
     print("inicioprimal")
+  #a.flatten('F')
 
+  def flattenVariable(self, obj):
+    obj_aux = np.reshape(obj, (1, -1))
+    for i in range(len(obj_aux)):
+      obj[i] = obj_aux[0:1][i]
+    return obj[0]
+     
   def addvariables(self, prob, m_obj, m_lb, m_ub, m_colnames):
-    #print(m_obj)
-    #print(m_lb)
-    #print(m_ub)
-    #print(m_colnames)
+    m_obj = self.flattenVariable(m_obj)
+    m_lb = self.flattenVariable(m_lb)
+    m_ub = self.flattenVariable(m_ub)
+    m_colnames = self.flattenVariable(m_colnames)
     prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
 
   def addconstraints(self, prob, constraints, m_senses, D, ek, m_rownames):
