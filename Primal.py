@@ -7,12 +7,15 @@ import numpy as np
 
 class PrimalGG:
 
+  def __init__(self):
+    print("inicioprimal")
+
   def setNomeRestricoes(self, D, L, m_rownames, m_senses):
     for i in range(len(D)):
       m_rownames[i] = str("demanda" + str(i+1))
       m_senses[i] = "G"
     for j in range(len(D), len(D)+len(L), 1):
-      m_rownames[j] = "estoque"
+      m_rownames[j] = str("estoque" + str(j+1))
       m_senses[j] = "L"
   
   def setVariaveisDecisao(self, m_obj, m_ub, m_lb, m_colnames, N, L):
@@ -48,10 +51,6 @@ class PrimalGG:
           A[k][j][N[k]] = np.floor(L[k]/l[j])
         N[k] += 1
 
-  def __init__(self):
-    print("inicioprimal")
-  #a.flatten('F')
-
   def flattenVariable(self, obj):
     obj_aux = np.reshape(obj, (1, -1))
     for i in range(len(obj_aux)):
@@ -65,9 +64,16 @@ class PrimalGG:
     m_colnames = self.flattenVariable(m_colnames)
     prob.variables.add(obj = m_obj, lb = m_lb, ub = m_ub, names = m_colnames)
 
-  def addconstraints(self, prob, constraints, m_senses, D, ek, m_rownames):
-    m_rhs = []
+  def setDemanda(self, m_rhs, D):
     for i in range(len(D)):
       m_rhs.append(D[i])
-    m_rhs.append(ek[0])
+
+  def setEstoque(self, m_rhs, ek):
+    for i in range(len(ek)):
+      m_rhs.append(ek[i])
+  
+  def addconstraints(self, prob, constraints, m_senses, D, ek, m_rownames):
+    m_rhs = []
+    self.setDemanda(m_rhs, D)
+    self.setEstoque(m_rhs, ek)
     prob.linear_constraints.add(lin_expr = constraints, senses = m_senses, rhs = m_rhs, names = m_rownames)
