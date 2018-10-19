@@ -42,13 +42,13 @@ class GGmodel:
 
   def corteAttribute(self):
     self.constraints = [[[0] for y in range(2)] for w in range(len(self.D)+len(self.L))]
-    self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-    self.m_rownames = ["" for x in range(len(D)+len(L))]
-    self.m_colnames = [["" for x in range(len(l))] for y in range(len(L))]
-    self.m_senses = ["" for x in range(len(D)+len(L))]
-    self.m_obj  = [[0 for x in range(len(l))] for y in range(len(L))]
-    self.m_ub = [[0 for x in range(len(l))] for y in range(len(L))]
-    self.m_lb = [[0 for x in range(len(l))] for y in range(len(L))]
+    self.estoque = [[[0 for x in range(len(self.l))] for y in range(2)]]
+    self.m_rownames = ["" for x in range(len(self.D)+len(self.L))]
+    self.m_colnames = [["" for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_senses = ["" for x in range(len(self.D)+len(self.L))]
+    self.m_obj  = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_ub = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_lb = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
 
   attributeSwitcher = {
     0: mochilaAttribute,
