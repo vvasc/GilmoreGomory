@@ -19,7 +19,9 @@ class GGmodel:
   m_ub = []
   m_lb = []
   L = 0 
-  l = [] 
+  l = []
+  usedL = 0 
+  selectedL = []
   D = [] 
   ek = []
   A = []
@@ -43,7 +45,7 @@ class GGmodel:
     self.constraints = [[[0] for y in range(2)] for w in range(len(self.D)+len(self.L))]
     self.estoque = [[[0 for x in range(len(self.l))] for y in range(2)]]
     self.m_rownames = ["" for x in range(len(self.D)+len(self.L))]
-    self.m_colnames = [["" for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_colnames = [["" for x in range(self.N[y])] for y in range(len(self.L))]
     self.m_senses = ["" for x in range(len(self.D)+len(self.L))]
     self.m_obj  = [[0 for x in range(self.N[y])] for y in range(len(self.L))]
     self.m_ub = [[0 for x in range(self.N[y])] for y in range(len(self.L))]
@@ -56,13 +58,9 @@ class GGmodel:
   def initCorteAttribute(self):
     self.constraints = [[[0 for x in range(len(self.l)*2)] for y in range(2)] for w in range(len(self.L)+len(self.D))] 
     self.m_obj  = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
-
-  attributeSwitcher = {
-    'mochila': mochilaAttribute,
-    'corte': corteAttribute,
-    'init': initAttribute,
-    'initCorte': initCorteAttribute
-  }
+    self.m_colnames = [["" for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_ub = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
+    self.m_lb = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
 
   def removeDualValuesFromEstoque(self, M):
     for i in range(len(self.ek)):
@@ -83,11 +81,11 @@ class GGmodel:
     self.gg.addconstraints(self.corte, self.constraints, self.m_senses, self.D, self.ek, self.m_rownames)
     self.corte.objective.set_sense(self.corte.objective.sense.minimize)
 
-  def setMochila(self, usedL):
+  def setMochila(self):
     self.mo.mochilainicio(self.m_colnames, self.l, self.m_obj, self.m_lb)
     self.mo.addVariables(self.mochila, self.M, self.l, self.m_lb, self.D, self.m_colnames)
-    self.mo.restricoes(self.mochila, self.m_colnames, usedL, self.l, self.constraints, self.M)
-    self.mo.addConstraints(self.mochila, self.constraints, self.m_senses, usedL, self.m_rownames)
+    self.mo.restricoes(self.mochila, self.m_colnames, self.usedL, self.l, self.constraints, self.M)
+    self.mo.addConstraints(self.mochila, self.constraints, self.m_senses, self.usedL, self.m_rownames)
     self.mochila.objective.set_sense(self.mochila.objective.sense.maximize)
   
   def solveMochila(self):
@@ -112,19 +110,10 @@ class GGmodel:
   def getMochilaValuesAndTranspose(self):
     self.a = self.mochila.solution.get_values()
     self.f.append(self.mochila.solution.get_objective_value())
-    self.N[j] += 1 
-    self.A[j] = np.transpose(self.A[j]) 
-    self.A[j] = np.vstack([self.A[j], self.a])
-    self.A[j] = np.transpose(self.A[j])
-
-
-  stateSwitcher = {
-    'solveMochila': solveMochila
-    'solveCorte': solveCorte
-    'setObjectsNull': setObjectsNull
-    'setMochilaNull': setMochilaNull
-    'getMochilaValuesAndTranspose': getMochilaValuesAndTranspose
-  }
+    self.N[self.selectedL] += 1 
+    self.A[self.selectedL] = np.transpose(self.A[self.selectedL]) 
+    self.A[self.selectedL] = np.vstack([self.A[self.selectedL], self.a])
+    self.A[self.selectedL] = np.transpose(self.A[self.selectedL])
 
   def stateChanges(self, argument):
     state = self.stateSwitcher.get(argument, "nothing")
@@ -133,6 +122,23 @@ class GGmodel:
   def attributeConsts(self, argument):
     attr = self.attributeSwitcher.get(argument, "nothing")
     return attr(self)
+
+  stateSwitcher = {
+    'setCorte': setCorte,
+    'setMochila': setMochila,
+    'solveMochila': solveMochila,
+    'solveCorte': solveCorte,
+    'setObjectsNull': setObjectsNull,
+    'setMochilaNull': setMochilaNull,
+    'getMochilaValuesAndTranspose': getMochilaValuesAndTranspose
+  }
+
+  attributeSwitcher = {
+    'mochila': mochilaAttribute,
+    'corte': corteAttribute,
+    'init': initAttribute,
+    'initCorte': initCorteAttribute
+  }
 
   def canStop(self, f):
     for i in range(len(f)):
@@ -156,6 +162,8 @@ class GGmodel:
       self.setAllValuesNull()
       self.attributeConsts('mochila')
       for j in range(len(self.L)):
+        self.usedL = self.L[j]
+        self.selectedL = j
         self.stateChanges('setMochila')
         self.stateChanges('solveMochila')
         self.stateChanges('getMochilaValuesAndTranspose')
