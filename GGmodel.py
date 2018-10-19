@@ -41,8 +41,14 @@ class GGmodel:
     self.constraints = [[[0 for x in range(len(self.l))] for y in range(2)] for w in range(1)]
 
   def corteAttribute(self):
-    self.constraints = [[[0 for x in range(self.N[0]+1)] for y in range(2)] for w in range(len(self.l)+1)]
-    self.estoque = [[0 for x in range(self.N[0])] for y in range(2)]
+    self.constraints = [[[0] for y in range(2)] for w in range(len(self.D)+len(self.L))]
+    self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
+    self.m_rownames = ["" for x in range(len(D)+len(L))]
+    self.m_colnames = [["" for x in range(len(l))] for y in range(len(L))]
+    self.m_senses = ["" for x in range(len(D)+len(L))]
+    self.m_obj  = [[0 for x in range(len(l))] for y in range(len(L))]
+    self.m_ub = [[0 for x in range(len(l))] for y in range(len(L))]
+    self.m_lb = [[0 for x in range(len(l))] for y in range(len(L))]
 
   attributeSwitcher = {
     0: mochilaAttribute,
@@ -101,9 +107,9 @@ class GGmodel:
   def canStop(self, f):
     for i in range(len(f)):
       if (1 - f[i] < 0):
-        self.STOP = False
+        self.STOP = True
         return 
-    self.STOP = True
+    self.STOP = False
     return
 
   def method(self, reseau):
@@ -147,14 +153,8 @@ class GGmodel:
     self.ek = ek
     self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(L))]
     self.N = [0 for x in range(len(L))]
+    self.attributeConsts(0)
     self.constraints = [[[0 for x in range(len(l)*2)] for y in range(2)] for w in range(len(L)+len(D))] 
-    self.estoque = [[[0 for x in range(len(l))] for y in range(2)]]
-    self.m_rownames = ["" for x in range(len(D)+len(L))]
-    self.m_colnames = [["" for x in range(len(l))] for y in range(len(L))]
-    self.m_senses = ["" for x in range(len(D)+len(L))]
-    self.m_obj  = [[0 for x in range(len(l))] for y in range(len(L))]
-    self.m_ub = [[0 for x in range(len(l))] for y in range(len(L))]
-    self.m_lb = [[0 for x in range(len(l))] for y in range(len(L))]
     #reseau = open(name, 'w', 0)
     self.method(reseau)
     #reseau.close()
