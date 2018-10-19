@@ -91,9 +91,20 @@ class GGmodel:
     self.corte = cplex.Cplex()
     self.mochila = cplex.Cplex()
 
+  def setMochilaNull(self):
+    self.mochila = cplex.Cplex()
+
   def attributeConsts(self, argument):
     attr = self.attributeSwitcher.get(argument, "nothing")
     return attr(self)
+
+  def canStop(self, f):
+    for i in range(len(f)):
+      if (1 - f[i] < 0):
+        self.STOP = False
+        return 
+    self.STOP = True
+    return
 
   def method(self, reseau):
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
@@ -115,8 +126,10 @@ class GGmodel:
         self.A[j] = np.transpose(self.A[j]) 
         self.A[j] = np.vstack([self.A[j], self.a])
         self.A[j] = np.transpose(self.A[j])
-      if (1 - self.f >= 0):
-        self.STOP = False
+        self.setAllValuesNull()
+        self.attributeConsts(0)
+        self.setMochilaNull()
+      self.canStop(self.f)
       #reseau.write('Padrão novo: ' + str(self.a) + '\n')
       self.custred = self.corte.solution.get_reduced_costs()
       self.setAllValuesNull()
