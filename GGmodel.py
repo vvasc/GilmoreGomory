@@ -33,7 +33,6 @@ class GGmodel:
   corte = cplex.Cplex()
   mochila = cplex.Cplex()
 
-
   gg = PrimalGG()
   mo = SubGG()
 
@@ -46,13 +45,23 @@ class GGmodel:
     self.m_rownames = ["" for x in range(len(self.D)+len(self.L))]
     self.m_colnames = [["" for x in range(len(self.l))] for y in range(len(self.L))]
     self.m_senses = ["" for x in range(len(self.D)+len(self.L))]
+    self.m_obj  = [[0 for x in range(self.N[y])] for y in range(len(self.L))]
+    self.m_ub = [[0 for x in range(self.N[y])] for y in range(len(self.L))]
+    self.m_lb = [[0 for x in range(self.N[y])] for y in range(len(self.L))]
+
+  def initAttribute(self):
+    self.A = [[[0 for x in range(len(self.l))] for y in range(len(self.l))] for z in range(len(self.L))]
+    self.N = [0 for x in range(len(self.L))]
+
+  def initCorteAttribute(self):
+    self.constraints = [[[0 for x in range(len(self.l)*2)] for y in range(2)] for w in range(len(self.L)+len(self.D))] 
     self.m_obj  = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
-    self.m_ub = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
-    self.m_lb = [[0 for x in range(len(self.l))] for y in range(len(self.L))]
 
   attributeSwitcher = {
-    0: mochilaAttribute,
-    1: corteAttribute
+    'mochila': mochilaAttribute,
+    'corte': corteAttribute,
+    'init': initAttribute,
+    'initCorte': initCorteAttribute
   }
 
   def removeDualValuesFromEstoque(self, M):
@@ -100,6 +109,27 @@ class GGmodel:
   def setMochilaNull(self):
     self.mochila = cplex.Cplex()
 
+  def getMochilaValuesAndTranspose(self):
+    self.a = self.mochila.solution.get_values()
+    self.f.append(self.mochila.solution.get_objective_value())
+    self.N[j] += 1 
+    self.A[j] = np.transpose(self.A[j]) 
+    self.A[j] = np.vstack([self.A[j], self.a])
+    self.A[j] = np.transpose(self.A[j])
+
+
+  stateSwitcher = {
+    'solveMochila': solveMochila
+    'solveCorte': solveCorte
+    'setObjectsNull': setObjectsNull
+    'setMochilaNull': setMochilaNull
+    'getMochilaValuesAndTranspose': getMochilaValuesAndTranspose
+  }
+
+  def stateChanges(self, argument):
+    state = self.stateSwitcher.get(argument, "nothing")
+    return state(self)
+
   def attributeConsts(self, argument):
     attr = self.attributeSwitcher.get(argument, "nothing")
     return attr(self)
@@ -113,35 +143,32 @@ class GGmodel:
     return
 
   def method(self, reseau):
+    self.attributeConsts('corte')
+    self.attributeConsts('initCorte')
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
     while(self.STOP | self.inicio):
       self.IT+=1
-      self.setCorte()
-      self.solveCorte()
+      self.stateChanges('setCorte')
+      self.stateChanges('solveCorte')
       #reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       self.removeDualValuesFromEstoque(self.M)
       self.setAllValuesNull()
-      self.attributeConsts(0)
+      self.attributeConsts('mochila')
       for j in range(len(self.L)):
-        self.setMochila(self.L[j])
-        self.solveMochila()
-        self.a = self.mochila.solution.get_values()
-        self.f.append(self.mochila.solution.get_objective_value())
-        self.N[j] += 1 
-        self.A[j] = np.transpose(self.A[j]) 
-        self.A[j] = np.vstack([self.A[j], self.a])
-        self.A[j] = np.transpose(self.A[j])
+        self.stateChanges('setMochila')
+        self.stateChanges('solveMochila')
+        self.stateChanges('getMochilaValuesAndTranspose')
         self.setAllValuesNull()
-        self.attributeConsts(0)
-        self.setMochilaNull()
+        self.attributeConsts('mochila')
+        self.stateChanges('setMochilaNull')
       self.canStop(self.f)
       #reseau.write('Padrão novo: ' + str(self.a) + '\n')
       self.custred = self.corte.solution.get_reduced_costs()
       self.setAllValuesNull()
       #reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
-      self.setObjectsNull()
-      self.attributeConsts(1)
+      self.stateChanges('setObjectsNull')
+      self.attributeConsts('corte')
       self.inicio = False
 
 
@@ -151,10 +178,7 @@ class GGmodel:
     self.D = D
     self.L = L
     self.ek = ek
-    self.A = [[[0 for x in range(len(l))] for y in range(len(l))] for z in range(len(L))]
-    self.N = [0 for x in range(len(L))]
-    self.attributeConsts(0)
-    self.constraints = [[[0 for x in range(len(l)*2)] for y in range(2)] for w in range(len(L)+len(D))] 
+    self.attributeConsts('init')
     #reseau = open(name, 'w', 0)
     self.method(reseau)
     #reseau.close()
