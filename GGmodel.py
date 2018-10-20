@@ -156,7 +156,7 @@ class GGmodel:
       self.IT+=1
       self.stateChanges('setCorte')
       self.stateChanges('solveCorte')
-      #reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
+      reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       self.removeDualValuesFromEstoque(self.M)
       self.setAllValuesNull()
@@ -167,14 +167,14 @@ class GGmodel:
         self.stateChanges('setMochila')
         self.stateChanges('solveMochila')
         self.stateChanges('getMochilaValuesAndTranspose')
+        reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.setAllValuesNull()
         self.attributeConsts('mochila')
         self.stateChanges('setMochilaNull')
       self.canStop(self.f)
-      #reseau.write('Padrão novo: ' + str(self.a) + '\n')
       self.custred = self.corte.solution.get_reduced_costs()
       self.setAllValuesNull()
-      #reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
+      reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
       self.stateChanges('setObjectsNull')
       self.attributeConsts('corte')
       self.inicio = False
@@ -187,9 +187,9 @@ class GGmodel:
     self.L = L
     self.ek = ek
     self.attributeConsts('init')
-    #reseau = open(name, 'w', 0)
+    reseau = open(name, 'w', 0)
     self.method(reseau)
-    #reseau.close()
+    reseau.close()
 
     
 

@@ -118,6 +118,7 @@ t0 = time.time()
 
 
 prob = GG([4, 3, 2], [20, 20, 20], [9, 12], [20, 10], "exemplo1")
+#prob = GG([7, 5, 3], [10, 10, 10], [8, 15], [20, 5], "exemplo1")
 
 print time.time() - t0,
 
