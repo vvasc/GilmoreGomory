@@ -1,0 +1,4 @@
+Função Objetivo: 6.67142857143
+Função Objetivo: 6.56666666667
+
+ Tempo Total: (0.27826380729675293,)

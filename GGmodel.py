@@ -5,6 +5,8 @@ import sys
 import numpy as np
 from Primal import PrimalGG
 from Sub import SubGG
+import time
+
 
 class GGmodel:
 
@@ -75,6 +77,9 @@ class GGmodel:
     self.m_rhs = []
     self.a = []
 
+  def setStopf(self):
+    self.f = []
+
   def setCorte(self):
     self.gg.restricoes(self.corte, self.m_colnames, self.D, self.A, self.constraints, self.N, self.m_rownames, self.m_senses, self.m_obj, self.m_ub, self.m_lb, self.L)
     self.gg.addvariables(self.corte, self.m_obj, self.m_lb, self.m_ub, self.m_colnames)
@@ -130,7 +135,8 @@ class GGmodel:
     'solveCorte': solveCorte,
     'setObjectsNull': setObjectsNull,
     'setMochilaNull': setMochilaNull,
-    'getMochilaValuesAndTranspose': getMochilaValuesAndTranspose
+    'getMochilaValuesAndTranspose': getMochilaValuesAndTranspose,
+    'setStopf': setStopf
   }
 
   attributeSwitcher = {
@@ -142,7 +148,7 @@ class GGmodel:
 
   def canStop(self, f):
     for i in range(len(f)):
-      if (1 - f[i] < 0):
+      if (1 - f[i] < -0.000000001):
         self.STOP = True
         return 
     self.STOP = False
@@ -156,7 +162,6 @@ class GGmodel:
       self.IT+=1
       self.stateChanges('setCorte')
       self.stateChanges('solveCorte')
-      reseau.write('Solution: ' + str(self.corte.solution.get_values()) + '\n')
       self.M = self.corte.solution.get_dual_values()
       self.removeDualValuesFromEstoque(self.M)
       self.setAllValuesNull()
@@ -167,11 +172,11 @@ class GGmodel:
         self.stateChanges('setMochila')
         self.stateChanges('solveMochila')
         self.stateChanges('getMochilaValuesAndTranspose')
-        reseau.write('Padrão novo: ' + str(self.a) + '\n')
         self.setAllValuesNull()
         self.attributeConsts('mochila')
         self.stateChanges('setMochilaNull')
       self.canStop(self.f)
+      self.stateChanges('setStopf')
       self.custred = self.corte.solution.get_reduced_costs()
       self.setAllValuesNull()
       reseau.write('Função Objetivo: ' + str(self.corte.solution.get_objective_value()) + '\n')
@@ -181,6 +186,7 @@ class GGmodel:
 
 
   def __init__(self, l, D, L, ek, name):
+    t0 = time.time()
     reseau = 0
     self.l = l
     self.D = D
@@ -189,6 +195,8 @@ class GGmodel:
     self.attributeConsts('init')
     reseau = open(name, 'w', 0)
     self.method(reseau)
+    tempo = time.time() - t0,
+    reseau.write('\n Tempo Total: ' + str(tempo))
     reseau.close()
 
     

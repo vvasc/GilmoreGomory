@@ -1,0 +1,6 @@
+Função Objetivo: 11.15
+Função Objetivo: 10.65
+Função Objetivo: 10.5
+Função Objetivo: 10.4
+
+ Tempo Total: (0.317047119140625,)
