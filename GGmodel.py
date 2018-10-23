@@ -10,7 +10,7 @@ import time
 
 class GGmodel:
 
-  STOP = True
+  CONTINUE = True
   IT = 0
   f = []
   a = [0]
@@ -148,17 +148,17 @@ class GGmodel:
 
   def canStop(self, f):
     for i in range(len(f)):
-      if (1 - f[i] < -0.000000001):
-        self.STOP = True
+      if (1 - f[i] < -0.00001):
+        self.CONTINUE = True
         return 
-    self.STOP = False
+    self.CONTINUE = False
     return
 
   def method(self, reseau):
     self.attributeConsts('corte')
     self.attributeConsts('initCorte')
     self.gg.padroesiniciais(self.m_colnames, self.L, self.l, self.A, self.N)
-    while(self.STOP | self.inicio):
+    while(self.CONTINUE | self.inicio):
       self.IT+=1
       self.stateChanges('setCorte')
       self.stateChanges('solveCorte')

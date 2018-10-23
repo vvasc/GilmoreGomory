@@ -1,0 +1,3 @@
+Função Objetivo: 102.0
+
+ Tempo Total: (0.09367203712463379,)
