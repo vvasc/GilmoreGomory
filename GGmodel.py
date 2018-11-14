@@ -114,6 +114,7 @@ class GGmodel:
 
   def getMochilaValuesAndTranspose(self):
     self.a = self.mochila.solution.get_values()
+    print(self.a)
     self.f.append(self.mochila.solution.get_objective_value())
     self.N[self.selectedL] += 1 
     self.A[self.selectedL] = np.transpose(self.A[self.selectedL]) 
@@ -197,6 +198,7 @@ class GGmodel:
     self.method(reseau)
     tempo = time.time() - t0,
     reseau.write('\n Tempo Total: ' + str(tempo))
+    reseau.write(str(self.A))
     reseau.close()
 
     

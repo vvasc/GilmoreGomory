@@ -24,7 +24,7 @@ class SubGG:
   
   def setVariablesTypes(self, prob, M):
     for i in range(len(M)):
-      prob.variables.set_types([(i, prob.variables.type.continuous)])
+      prob.variables.set_types([(i, prob.variables.type.integer)])
 
   def mochilainicio(self, m_colnames, l, m_obj, m_lb):
     for j in range(len(l)):
